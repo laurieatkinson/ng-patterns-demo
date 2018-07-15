@@ -1,0 +1,8 @@
+<div *ngIf="showAlert" class="alert alert-{{ alertType? alertType : '-' }} alert-block">
+    <i *ngIf="alertType=='danger'" class="fa fa-times-circle"></i>
+    <i *ngIf="alertType=='warning'" class="fa fa-exclamation-circle"></i>
+    <i *ngIf="alertType=='info'" class="fa fa-info-circle"></i>
+    <i *ngIf="alertType=='success'" class="fa fa-check-circle"></i>
+    <a class="close" data-dismiss="alert" (click)="toggle()" >&#xD7;</a>
+    <ng-content></ng-content>
+</div>

@@ -1,0 +1,8 @@
+<p-megaMenu *ngIf="type=='mega'" [orientation]="orientation" [model]="filteredItems"></p-megaMenu>
+<p-menu *ngIf="type=='popup'" #popupMenu [popup]="true"
+        [model]="filteredItems" appendTo="body"></p-menu>
+<p-menu *ngIf="type=='menu'" [model]="filteredItems" appendTo="body"></p-menu>
+<p-tieredMenu *ngIf="type=='tiered'" [model]="filteredItems" appendTo="body"></p-tieredMenu>
+<p-panelMenu *ngIf="type=='panel'" [model]="filteredItems" appendTo="body"></p-panelMenu>
+<p-menu *ngIf="type=='logout'" #logoutMenu [popup]="true"
+        [model]="filteredItems" appendTo="body" styleClass="logout"></p-menu>

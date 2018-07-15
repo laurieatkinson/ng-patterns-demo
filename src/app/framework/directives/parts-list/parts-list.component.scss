@@ -1,0 +1,25 @@
+.inline-header {
+    display: inline-block;
+    vertical-align: baseline;
+}
+.readOnly {
+    height: 100%;
+    min-height: 34px;
+    padding: 6px 12px;
+    color: #555555;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    font-size: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    top: 2px;
+}
+.hide-labels p.label {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    text-indent: -9999px;
+}

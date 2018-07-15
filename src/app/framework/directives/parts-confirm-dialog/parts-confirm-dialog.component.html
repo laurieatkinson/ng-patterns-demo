@@ -1,0 +1,16 @@
+<p-dialog header="{{title}}" [(visible)]="display" (onHide)="cancel()"
+          [modal]="true" [responsive]="true">
+    <p>{{message}}</p>
+    <ng-content></ng-content>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button *ngIf="allowSave" class="ui-button-success btn btn-primary" pButton type="button" icon="fa-check"
+                    [label]="okButtonText" (click)="save()">
+            </button>
+            <button class="ui-button-danger btn btn-primary" pButton type="button" icon="fa-close"
+                    [label]="cancelButtonText" (click)="cancel()">
+            </button>
+        </div>
+    </p-footer>
+</p-dialog>
+

@@ -1,0 +1,21 @@
+<header>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" [routerLink]="['/']">
+                <span class="page-title">Demo App</span>
+            </a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="!loggedIn()">
+                <a (click)="signIn()">Sign in</a>
+            </li>
+            <li dropdown *ngIf="loggedIn()">
+                <a (click)="toggleUserMenu($event)">
+                    <i class="fa fa-user"></i>{{userName()}}
+                    <span class="caret"></span>
+                </a>
+                <la-menu id="logout-menu" [type]="'logout'" [items]="userMenuItems" #userMenu></la-menu>
+            </li>
+        </ul>
+    </nav>
+</header>

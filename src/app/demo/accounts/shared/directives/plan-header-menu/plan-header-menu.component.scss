@@ -1,0 +1,234 @@
+@import '../../../../../../scss/colors';
+@import '../../../../../../scss/mixins';
+
+#sidebar-wrapper {
+    position: fixed; 
+    max-width:300px;
+    top: 100px;
+    height: 100%;
+    background-color: white;
+    font-size: 12px;
+    /* padding-bottom: 180px; */
+
+    border: 0.5px solid #eee;
+    margin-left: -350px;
+ 
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+    z-index: 100; 
+    overflow-y: scroll;
+}
+
+.toggle-sidebar-on {
+    margin-left:0px !important;
+
+}
+.toggle-sidebar-off {
+    margin-left:-350px !important;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+     /* IE10+ CSS styles go here */
+     #sidebar-wrapper {
+         margin-left: -365px;
+     }
+
+     .toggle-sidebar-on {
+        margin-left:0px !important;
+
+    }
+    .toggle-sidebar-off {
+        margin-left:-365px !important;
+    }
+}
+
+/* .ui-menuitem-active .ui-menuitem-text {
+    color: white !important;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover > .ui-menuitem-text {
+    color: white !important;
+}
+
+.ui-megamenu-panel .ui-menuitem-text {
+    color:#333 !important;
+} */
+
+
+
+/* .ui-menu.ui-menubar .ui-menubar-root-list > li > a > .ui-submenu-icon, body .ui-menu.ui-menubar > .ui-menu-list > .ui-menuitem > .ui-menuitem-link::after {
+     display:none; 
+} */
+
+/* body .ui-menu .ui-menu-list .ui-menu-child.ui-shadow {
+     display: none !important; 
+}  */
+
+.ui-megamenu-vertical {
+    width: auto;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover, body .ui-menu .ui-menu-list .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+    color: white;
+}
+
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover > .ui-menuitem-text {
+    color: white !important;
+}
+
+.ui-menuitem.ui-menuitem-active > .ui-menuitem-link > .ui-menuitem-text, .ui-menuitem.ui-menuitem-active > .ui-menuitem-link > .ui-submenu-icon {
+    color: white !important;
+} 
+
+.ui-tieredmenu {
+    border: none !important;
+    width:100%;
+    margin:0;
+}
+
+.ui-tieredmenu  .ui-menu-list  .ui-menuitem  .ui-menuitem-link > .ui-menuitem-text {
+    color: #373a3c;
+}
+
+.ui-tieredmenu  .ui-menu-list  .ui-menuitem  .ui-menuitem-link > .ui-submenu-icon {
+    color: #007bc2;
+}
+
+
+.ui-tieredmenu  .ui-menu-list  .ui-menuitem  .ui-menuitem-link > .ui-submenu-icon {
+    top:-2px; 
+}
+
+
+
+.sidebar-brand > h5 {
+    padding-left: 10px;
+    padding-top:10px;
+    color: #337ab7; 
+}
+.sidebar-brand > h5 > a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#megamenu-back-icon {
+    float: right; 
+    padding-right: 12px;
+}
+
+body .ui-panelmenu .ui-panelmenu-panel, .ui-panelmenu .ui-panelmenu-content-wrapper {
+    border: none !important;
+}
+
+/* body .ui-panelmenu .ui-panelmenu-header.ui-state-active + .ui-panelmenu-content-wrapper > .ui-panelmenu .ui-panelmenu-content {
+    border: none !important;
+} */
+
+.ui-panelmenu .ui-panelmenu-content {
+    border: none !important;
+}
+body .ui-panelmenu .ui-panelmenu-header.ui-state-active a > .ui-menuitem-text,
+body .ui-panelmenu .ui-panelmenu-header.ui-state-active a:hover,
+body .ui-panelmenu .ui-panelmenu-header a:hover {
+    text-decoration: none;
+}
+
+.menu-padding {
+    padding-bottom: 180px;
+}
+
+body .ui-panelmenu .ui-panelmenu-content .ui-menuitem-link > span.fa,
+body .ui-panelmenu .ui-panelmenu-header .fa {
+    float:right !important; 
+}
+
+body .ui-panelmenu .ui-panelmenu-header .fa {
+    margin-top:4px;
+}
+
+.ui-panelmenu-content-wrapper {
+    ul {
+        margin-left:16px;
+    }
+    
+}
+
+li.ui-state-active {
+    border-radius: 0px;
+
+    ul.ui-panelmenu, ul.ui-menu-parent, ul.ui-menu-list {
+        margin-left: 0 !important;
+    }
+    ul {
+        background-color: white !important;
+        padding-left: 18px;
+        // li a span.ui-menuitem-text {
+        //     color: $prime-blue !important;
+        // }
+
+        // li a.ui-state-active span.ui-menuitem-text {
+        //     color: white !important;
+        // }
+
+        // li.ui-state-active a span.ui-menuitem-text {
+        //     color: white !important;
+        // }
+        
+    }
+}
+
+.ui-panelmenu .ui-menuitem {
+    margin: 0 auto;
+}
+
+// li.ui-menuitem {
+//     .ui-menuitem-link .ui-menuitem-text {
+//         color: $prime-blue;
+//     }
+// }
+
+li.ui-menuitem.ui-state-active.ui-menu-parent {
+    .ui-menuitem-link .ui-menuitem-text {
+        color: $link-blue;
+    }
+} 
+
+// .ui-state-active {
+//     background-color: $gray-med !important;
+//     a {   
+//         .ui-menuitem-text, .fa {
+//             color: $link-blue !important;
+//         }
+
+        
+//     }
+//     &:hover {
+//         background-color: $hover-gray !important;
+//     }
+// }
+
+
+.ui-state-active {
+    background-color: $gray-med !important;
+    a {   
+        .ui-menuitem-text, .fa {
+            color: $link-blue !important;
+        }
+
+        
+    }
+    &:hover {
+        background-color: $gray-dark !important;
+    }
+}
+
+#sidebar-wrapper > ul {
+    span {
+        text-transform: capitalize;
+    }
+}
+
+

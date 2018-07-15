@@ -1,0 +1,25 @@
+@import '../../../../scss/colors';
+@import '../../../../scss/mixins';
+
+@include generic-button();
+
+.save-button {
+    margin-left:4px;
+}
+
+.row {
+    margin-bottom: 1em;
+    margin-top: 3em;
+}
+
+.header {
+    @include font-h();
+    margin-top: -20px;
+}
+
+h2, .h2 {
+    font-family: Tahoma, Helvetica, Arial, sans-serif; 
+    font-weight: 520;
+    font-size: 21px;
+    // margin-top: 0px;
+}

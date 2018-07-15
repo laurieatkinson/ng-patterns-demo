@@ -1,0 +1,10 @@
+<h2>Account Selection</h2>
+<div class="row">
+    <div class="col-md-12">
+        <la-error-message [errorList]="errorsFromServer"></la-error-message>
+        <la-data-table [data]="searchResultList" [columns]="searchResultColumns" [globalFilter]="true" [globalFilterPlaceholder]="'Filter accounts'"
+            [sortField]="'accountCode'" 
+            [scrollable]="true" [scrollHeight]="'400px'">
+        </la-data-table>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<p-dialog header="{{title}}" [(visible)]="visible" [width]="width"
+      [height]="height" (onHide)="hide()" [modal]="true" [responsive]="true" (onShow)="showDialog()" [draggable]=
+      "false" [resizable]="false" >
+    <ng-content></ng-content>
+</p-dialog>

@@ -1,0 +1,7 @@
+pn-field.truncate-label > div > div > div.form-group > p.label {
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+

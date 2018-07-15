@@ -1,0 +1,64 @@
+<div class="main-content pad-main-content-on">
+    <la-account-header (postChanges)="postChanges()"></la-account-header>
+    <la-plan-header-menu></la-plan-header-menu>
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="form">
+                <div class="form-group">
+                    <la-component-header [title]="'Valuation'" [form]="form" [isEditable]="editMode" (onSave)="save()" (toggleEdit)="toggleEditMode($event)">
+                    </la-component-header>
+                    <la-error-message [errorList]="errorsFromServer"></la-error-message>
+                    <div class="row">
+                        <div class="col-md-4"  style="margin-top: -1.3em;">
+                            <h3>Year End</h3>
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <la-field [label]="'Plan Year End'" [editMode]="editMode" [type]="'date?'" formControlName="planYearEndDate" [dateFormat]="'MM/DD'">
+                                        </la-field>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <la-field [label]="'Statement Year End'" [editMode]="editMode" [type]="'date?'" formControlName="statementYearEndDate" [dateFormat]="'MM/DD'">
+                                        </la-field>
+                                    </div>
+                                    <div class="col-md-12" *ngIf="planValuation.planGroup == 'DC'">
+                                        <la-field [label]="'Admin Year End'" [editMode]="editMode" [type]="'date?'" formControlName="adminYearEndDate" [dateFormat]="'MM/DD'" >
+                                        </la-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="margin-top: -1.3em;">
+                            <h3>Frequency</h3>
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <la-list [label]="'Valuation Frequency'" [editMode]="editMode" [parentFormGroup]="form" [choices]="planValuation.timePeriodList"
+                                        formControlName="valuationFrequencyPerYear" [includeEmptyChoice]="true">
+                                        </la-list>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <la-list [label]="'Statement Frequency'" [editMode]="editMode" [parentFormGroup]="form" [choices]="planValuation.timePeriodList"
+                                        formControlName="statementFrequencyPerYear" [includeEmptyChoice]="true">
+                                        </la-list>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <la-list [label]="'Processing Frequency'" [editMode]="editMode" [parentFormGroup]="form" [choices]="planValuation.timePeriodList"
+                                        formControlName="processingFrequencyPerYear" [includeEmptyChoice]="true">
+                                        </la-list>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <la-list [label]="'Billing Frequency'" [editMode]="editMode" [parentFormGroup]="form" [choices]="planValuation.timePeriodList"
+                                        formControlName="billingFrequencyPerYear" [includeEmptyChoice]="true">
+                                        </la-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<la-posting-confirm-dialog #postingConfirmationDialog></la-posting-confirm-dialog>

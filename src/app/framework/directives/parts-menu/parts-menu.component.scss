@@ -1,0 +1,93 @@
+@import '../../../../scss/colors';
+@import '../../../../scss/mixins';
+
+body .ui-menu.ui-menubar {
+    background-color: inherit;
+    font-family: inherit;
+    border: 0;
+}
+.ui-menu .ui-menuitem-link .ui-menuitem-icon {
+    display: none;
+}
+.ui-menu .ui-menuitem-link {
+    width: 100% !important;
+    padding: .25em !important;
+}
+/*.ui-menu.ui-menubar .ui-menubar-root-list > li > a > .ui-submenu-icon {
+    float: right;
+}*/
+body .ui-menu .ui-menu-parent .ui-submenu-icon {
+    position: relative;
+}
+.ui-menuitem-link:hover .ui-submenu-icon, .ui-menuitem-active .ui-submenu-icon, .ui-menuitem-active .ui-menuitem-text, .ui-megamenu-panel li:hover .ui-menuitem-text {
+    color: #fff;
+}
+.ui-megamenu-panel .ui-menuitem-text {
+    color: #333;
+}
+body .ui-menu .ui-menu-list .ui-menuitem .ui-menuitem-link:hover, body .ui-menu .ui-menu-list .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
+    background-color: $link-blue;
+}
+// .navbar  .ui-menu .ui-menuitem-link {
+//   padding: .75em !important;
+// }
+
+.ui-megamenu-panel {
+    position: absolute;
+    z-index: 5000 !important;
+}
+.ui-megamenu-panel .ui-g .ui-g-12 {
+    padding: 10px;
+}
+.ui-megamenu-panel.ui-corner-all {
+    border-radius: 10;
+}
+div#pn-plan-nav .ui-menuitem-link, div#pn-plan-nav .ui-submenu-icon {
+    text-transform: uppercase;
+    vertical-align: top;
+}
+
+body .ui-panelmenu .ui-panelmenu-header a {
+    @include link-menu();
+}
+body .ui-panelmenu .ui-panelmenu-header.ui-state-active a > .ui-menuitem-text {
+    color: white;
+}
+body .ui-panelmenu .ui-panelmenu-content .ui-menuitem-link {
+    @include link-menu();
+}
+.ui-state-active .ui-menuitem-link {
+    span.ui-menuitem-text {
+        color: white;
+    }
+}
+.ui-menu-list {
+    top: 40px !important;
+}
+// .ui-menu .ui-menuitem-text {
+//     //white-space: nowrap;
+//     //padding-right:10px;
+//     padding: 10px;
+// }
+.logout {
+    //position: fixed !important;
+    top: -30px !important;
+    ul {
+        li {
+            a {
+                span {
+                    @include link-logout();
+                    text-transform: uppercase;
+
+                }
+
+                &:hover {
+                    span {
+                        color: white !important;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+    }
+}

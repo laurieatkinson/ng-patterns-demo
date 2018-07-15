@@ -1,0 +1,49 @@
+<div class="main-content pad-main-content-on">
+  <la-account-header (postChanges)="postChanges()"></la-account-header>
+  <la-plan-header-menu></la-plan-header-menu>
+  <div class="row">
+    <div class="col-md-12 ">
+      <form [formGroup]="form">
+        <la-component-header [title]="'Outside Plan Detail'" [form]="form" [isEditable]="editMode" (onSave)="save()" (toggleEdit)="toggleEditMode($event)">
+        </la-component-header>
+        <la-error-message [errorList]="errorsFromServer"></la-error-message>
+        <div class="row well white-well">
+          <div class="col-md-6">
+            <la-field [type]="'text'" [label]="'Name 1'" [editMode]="editMode" formControlName="outsidePlanName1"></la-field>
+          </div>
+          <div class="col-md-6">
+            <la-field [type]="'text'" [label]="'Name 2'" [editMode]="editMode" formControlName="outsidePlanName2"></la-field>
+          </div>
+          <div class="col-md-6">
+            <la-field [type]="'text'" [label]="'Name 3'" [editMode]="editMode" formControlName="outsidePlanName3"></la-field>
+          </div>
+          <div class="col-md-6">
+            <la-list [label]="'Outside Plan Type'" [editMode]="editMode" [choices]="outsidePlan.PlanTypeList" [parentFormGroup]="form"
+              formControlName="outsidePlanType" [includeEmptyChoice]="true"></la-list>
+          </div>
+          <div class="col-md-6">
+            <la-field [type]="'number'" [label]="'Benefit Calculator Override % Rate for Future Employer Contribution Projections'" [editMode]="editMode"
+              formControlName="erOverrideContribRate" [numberFormat]="'1.2-2'">
+            </la-field>
+          </div>
+        </div>
+
+        <h3>Contact Information</h3>
+        <div class="row well white-well">
+          <div class="col-md-4">
+            <la-field [type]="'text'" [label]="'Contact Name'" [editMode]="editMode" formControlName="outsideContactName"></la-field>
+          </div>
+          <div class="col-xs-3">
+            <la-field class="truncate-label" [type]="'text'" [label]="'Area Code'" [editMode]="editMode" formControlName="contactPhoneAreaCode"
+              [mask]="'999'"></la-field>
+          </div>
+          <div class="col-xs-5">
+            <la-field [type]="'text'" [label]="'Phone'" [editMode]="editMode" formControlName="contactPhoneNumber" [mask]="'999-9999'"></la-field>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<la-posting-confirm-dialog #postingConfirmationDialog></la-posting-confirm-dialog>

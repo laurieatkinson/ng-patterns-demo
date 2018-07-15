@@ -1,0 +1,10 @@
+<div class="main-content pad-main-content-on">
+    <la-account-header (postChanges)="postChanges()"></la-account-header>
+    <la-plan-header-menu></la-plan-header-menu>
+    <div class="row">
+        <div class="col-md-12" style="margin-top: 100px">
+            <la-error-message [errorList]="errorsFromServer" [header]="header"></la-error-message>
+        </div>
+    </div>
+</div>
+<la-posting-confirm-dialog #postingConfirmationDialog></la-posting-confirm-dialog>

@@ -1,0 +1,23 @@
+{
+    "env": {
+        "name": "DEV"
+    },
+    "appInsights": {
+        "instrumentationKey": "<your-key-here>"
+    },
+    "logging": {
+        "console": true,
+        "appInsights": false,
+        "traceEnabled": false
+    },
+    "aad": {
+        "requireAuth": false,
+        "tenant": "<your-guid-here>",
+        "clientId": "<your-guid-here>"
+    },
+    "apiServer": {
+        "metadata": "http://localhost:56767/api/",
+        "rules": "http://localhost:54084/api/",
+        "transaction": ""
+    }
+}

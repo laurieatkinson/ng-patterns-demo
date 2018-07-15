@@ -1,0 +1,11 @@
+<div *ngIf="errorList && errorList.length > 0" class="alert alert-danger">
+    <h2 *ngIf="header">{{header}}</h2>
+    <ul *ngIf = "errorList.length > 1">
+        <li *ngFor="let error of errorList">
+            {{error}}
+        </li>
+    </ul>
+    <span *ngIf = "errorList.length === 1">
+        {{errorList}}        
+    </span>
+</div>

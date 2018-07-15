@@ -1,0 +1,22 @@
+.ui-dialog {
+    border-radius: 0 !important;
+    position: fixed;
+    
+}
+.ui-dialog-title {
+    font-weight: normal, !important;
+}
+.ui-dialog-titlebar-close .fa,
+.ui-dialog-titlebar-close .glyphicon {
+    color: inherit !important;
+    font-size: 1.5em;
+    line-height: 1.5em;
+}
+.ui-dialog-titlebar-close .fa-close:before,
+.ui-dialog-titlebar-close .glyphicon-remove:before {
+    content: 'X' !important;
+    font-family: Helvetica, Arial, Tahoma, sans-serif;
+}
+.ui-dialog-buttonpane {
+    text-align: left !important;
+}

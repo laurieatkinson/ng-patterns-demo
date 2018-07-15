@@ -1,0 +1,109 @@
+@import '../../../../scss/colors';
+@import '../../../../scss/mixins';
+
+.navbar {
+  min-height: auto !important;
+}
+
+#top-nav {
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  z-index: 900;
+
+  background-color: $nav-blue !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  font-size: 1em;
+  max-height: 40px;
+  min-width: 992px;
+}
+
+#pn-main-nav {
+  background-color: $nav-blue;
+  @include font-body();
+
+  max-height: 40px;
+}
+
+div#pn-main-nav { 
+  ul {
+    margin: 0 !important;
+    max-height: 40px;
+    li {
+      max-height: 40px;
+      a {
+        height: 40px;
+        padding: 10px 15px;      
+      }
+    }
+  }
+}
+
+div#pn-main-nav > ul > li > a {
+  color: $canvas;
+}
+
+div#pn-main-nav > ul > li:active > a {
+  color: $nav-blue;
+  background-color: $nav-active;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+  background-color: $nav-hover;
+}
+
+div#pn-main-nav > ul > li > a:hover {
+  color: $canvas;
+  background-color: $nav-hover;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  margin-bottom: -1.5px;
+}
+
+.ui-menubar .ui-menubar-root-list {
+  height:50px;
+}
+
+.ui-menu.ui-menubar .ui-menubar-root-list > li > a > .ui-submenu-icon, body .ui-menu.ui-menubar > .ui-menu-list > .ui-menuitem > .ui-menuitem-link {
+  height:50px;
+}
+
+.ui-menu .ui-menuitem-text, .ui-menu .ui-widget-header h1, .ui-menu .ui-widget-header h2, .ui-menu .ui-widget-header h3, .ui-menu .ui-widget-header h4, .ui-menu .ui-widget-header h5, .ui-menu .ui-widget-header h6 {
+  @include link-menu();
+
+}
+
+a.ui-submenu-link {
+  .ui-menuitem-text {
+    font-weight: bold;
+    color: white !important;
+    
+  }
+}
+
+body .ui-state-disabled, body .ui-widget:disabled {
+&:hover {
+  cursor: not-allowed !important;
+}
+span {
+  &:hover {
+    cursor: not-allowed !important;
+  }
+}
+}
+
+.link-menu {
+  @include link-menu();
+  color: white !important;
+
+  &:hover {
+    background-color: $link-blue !important;
+  }
+}
+
+#pn-main-nav > ul > li a,
+#pn-main-nav > ul > li a span {
+  text-transform: capitalize;
+}

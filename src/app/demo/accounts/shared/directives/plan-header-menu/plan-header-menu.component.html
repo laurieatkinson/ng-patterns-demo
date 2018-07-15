@@ -1,0 +1,13 @@
+<!-- Sidebar -->
+<nav class="navbar navbar-inverse navbar-fixed-top toggle-sidebar-on" 
+    id="sidebar-wrapper" role="navigation">
+    <ul class="nav sidebar-nav">
+        <li class="sidebar-brand">
+            <h3 style="color: #007bc2; font-weight:bold;  font-size: 12px"> &nbsp; &nbsp;Demo
+            </h3>
+        </li>
+        <la-menu *ngIf="items" [items]="items" [type]="'panel'" [orientation]="'vertical'" appendTo="navbar"></la-menu>
+    </ul>
+    <la-error-message [errorList]="errorsFromServer"></la-error-message>  
+    <div class="menu-padding"></div>
+</nav>

@@ -1,0 +1,16 @@
+<la-dialog [title]="title" [(visible)]="display" (onHide)="cancel()" [width]="400">
+    <p>{{message}}</p>
+    <div *ngIf="confirm" style="height:280px">
+        <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" [(ngModel)]="description"
+                  [maxlength]="80" />
+        </div>
+    </div>
+    <button *ngIf="allowSave || confirm" class="btn btn-primary" pButton icon="fa-check" (click)="save()"
+            [disabled]="confirm && !description">
+            {{saveButtonText()}}
+    </button>
+    <button *ngIf="allowDiscard" class="btn btn-primary" pButton icon="fa-close" (click)="discard()">Discard</button>
+    <button class="btn btn-primary" pButton icon="fa-close" (click)="cancel()">Cancel</button>
+</la-dialog>

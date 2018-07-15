@@ -1,0 +1,105 @@
+<la-alert *ngIf="errorMessage">{{errorMessage}}</la-alert>
+<div class="global-search" [hidden]="!globalFilter">
+    <input #gf pInputText class="form-control" [placeholder]="globalFilterPlaceholder">
+</div>
+<p-dataTable [value]="data" [reorderableColumns]="reorderColumns" [responsive]="true" [rows]="rows" [paginator]="paginator"
+    [pageLinks]="3" [globalFilter]="gf" [rowsPerPageOptions]="[5,10,20]" [resizableColumns]="resizableColumns" [editable]="editable"
+    [sortField]="sortField" [multiSortMeta]="multiSortFields" [sortMode]="sortMode" [scrollable]="scrollable" [scrollHeight]="scrollHeight" 
+    [virtualScroll] ="virtualScroll"
+    (onRowClick)="onRowClick($event)" [(selection)]="selectedItem" (onEdit)="cellModified($event)" expandableRows="details && details.length > 0"
+    #dataTable>
+    <p-header *ngIf="title">
+        <span class="pull-left" *ngIf="title">{{title}}</span>
+    </p-header>
+    <!-- work-around to allow row selection of editable table and disabling of a row -->
+
+    <p-column *ngIf="false" selectionMode="single"></p-column>
+    <p-column *ngIf="details && details.length > 0" expander="true" [style]="{'width':'38px'}" styleClass="col-icon"></p-column>
+    <ng-container *ngFor="let column of displayColumns; let i = index">
+        <p-column [style]="{'overflow': column.dataType === 'choice' || column.dataType === 'date' ? 'visible' : null, 'width': column.width,'display': (column.hidden ? 'none' : '')}" 
+            [hidden]="column.hidden" [excludeGlobalFilter]="column.excludeFromGlobalFilter"
+            [field]="column.name" [filter]="column.filter" filterPlaceholder="Filter" [header]="column.header" [filterMatchMode]="column.dataType === 'choice' ? 'equals' : 'contains'"
+            [footer]="showFooter(column, i)" [sortable]="column.sortable" [editable]="column.editable && !(details && details.length > 0)">
+            <ng-template *ngIf="column.dataType === 'choice' && column.filter && column.filterOptions" pTemplate="filter" let-col>
+                <p-dropdown [options]="column.filterOptions" [style]="{'width':'100%'}" 
+                appendTo="body" 
+                (onChange)="dataTable.filter($event.value, col.field, col.filterMatchMode)"
+                styleClass="ui-column-filter">
+                </p-dropdown>
+            </ng-template>
+            <ng-template *ngIf="column.dataType !== 'choice' && column.dataType !== 'date'" let-item="rowData" pTemplate="editor" let-col
+                pTemplate="body">
+                <span *ngIf="column.dataType !== 'url' && (!column.numberFormat || !(item[col.field] || item[col.field] === 0))"
+                     [ngClass]="{'disabled-cell': item.disabled}">
+                    {{item[col.field]}}
+                </span>
+                <span *ngIf="column.numberFormat && (item[col.field] || item[col.field] === 0)"
+                      [ngClass]="{'disabled-cell': item.disabled}">
+                    {{column.numberFormat === 'currency' ? (item[col.field] | currency:'USD':true) : (item[col.field] | number:column.numberFormat)}}
+                </span>
+                <a *ngIf="column.dataType === 'url'" [ngClass]="{'disabled-cell': item.disabled}" [routerLink]="[formatUrl(item, column.link)]">
+                    {{column.linkText || item[col.field]}}
+                </a>
+            </ng-template>
+            <ng-template *ngIf="column.dataType !== 'choice' && column.dataType !== 'date'" let-item="rowData" pTemplate="editor" let-col
+                pTemplate="editor">
+                <input *ngIf="!item.disabled" [type]="column.dataType === 'number' ? 'number' : 'text'"
+                       [(ngModel)]="item[col.field]" (change)="itemChanged(item, col.field)"
+                />
+                <span *ngIf="item.disabled" [ngClass]="{'disabled-cell': item.disabled}">{{item[col.field]}}</span>
+            </ng-template>
+            <ng-template *ngIf="column.dataType === 'choice'" let-col let-item="rowData" pTemplate="editor">
+                <p-dropdown *ngIf="!item.disabled" [disabled]="item.disabled" [(ngModel)]="item[col.field]" 
+                    appendTo="body" (onChange)="itemChanged(item, col.field)"
+                    [options]="column.options" [autoWidth]="false" [style]="{'width':'100%'}"></p-dropdown>
+                <span *ngIf="item.disabled" [ngClass]="{'disabled-cell': item.disabled}">{{getOptionsColumnLabel(item, column)}}</span>
+            </ng-template>
+            <ng-template *ngIf="column.dataType === 'choice'" let-item="rowData" pTemplate="body">
+                <span [ngClass]="{'disabled-cell': item.disabled}">{{getOptionsColumnLabel(item, column)}}</span>
+            </ng-template>
+            <ng-template *ngIf="column.dataType === 'date'" let-col let-item="rowData" pTemplate="body">
+                <span [ngClass]="{'disabled-cell': item.disabled}">{{item[col.field] | dateToString:'MM/DD/YYYY' }}</span>
+            </ng-template>
+            <ng-template *ngIf="column.dataType === 'date'" let-col let-item="rowData" pTemplate="editor">
+                <p-calendar *ngIf="!item.disabled" [disabled]="item.disabled" [(ngModel)]="item[col.field]" (onSelect)="itemChanged(item, col.field)"></p-calendar>
+                <span *ngIf="item.disabled" [ngClass]="{'disabled-cell': item.disabled}">{{item[col.field] | dateToString:'MM/DD/YYYY' }}</span>
+            </ng-template>
+            <ng-template *ngIf="column.dataType === 'mask'" let-col let-item="rowData" pTemplate="editor">
+                <p-inputMask [mask]="column.mask" [(ngModel)]="item[col.field]"
+                    slotChar=" " (onBlur)="itemChanged(item, col.field)">
+                </p-inputMask>
+            </ng-template>
+        </p-column>
+    </ng-container>
+
+    <p-column *ngIf="editable && showSaveCancelButtons" [style]="{'min-width':'125px'}">
+        <ng-template let-item="rowData" pTemplate="body">
+            <button class="btn-xs btn-primary btn-row" (click)="saveItem(item)" *ngIf="item.modified">Save</button>
+            <button class="btn-xs btn-primary btn-row" (click)="cancelItemChanges(item)" *ngIf="item.modified">Cancel</button>
+        </ng-template>
+    </p-column>
+
+    <p-column *ngIf="editable && (allowDeletionOfLastRow || canDelete)" [style]="{'min-width':'75px'}">
+        <ng-template let-item="rowData" let-rowIndex="rowIndex" pTemplate="body">
+            <button *ngIf="canDelete || data.length-1 === rowIndex" class="btn-xs btn-primary btn-row" (click)="deleteItem(rowIndex)">Delete</button>
+        </ng-template>
+    </p-column>
+
+    <ng-template let-item pTemplate="rowexpansion">
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+            <div *ngFor="let field of details">
+                <div class="ui-grid-row">
+                    <div class="ui-grid-col-12">
+                        <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-2 label">{{field.label}}</div>
+                                <la-input [disabled]="item.disabled" [editMode]="editable && field.editable" [fieldValue]="item[field.fieldName]" (changed)="fieldChanged(item, field.fieldName, $event)">
+                                </la-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataTable>

@@ -1,0 +1,31 @@
+/*.ui-panel-titlebar-toggler {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50% !important;
+    padding: 3px;
+}*/
+.ui-panel-titlebar.ui-widget-header.ui-helper-clearfix.ui-corner-all {
+    background-color: white !important;
+}
+.ui-panel {
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+.ui-panel .ui-panel-titlebar .h3 {
+    color: #000;
+    text-transform: capitalize;
+    font-family: Tahoma, Helvetica, Arial, sans-serif !important;
+    font-size: 14px;
+    font-weight: bold;
+}
+.ui-panel .ui-panel-titlebar {
+    position: relative;
+    font-size: 1.25em;
+}
+.edit {
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    font-weight: bold;
+    color: #333;
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "demo-inheritance": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/web.config",
+              "src/newrelic"
+            ],
+            "styles": [
+              "node_modules/primeng/resources/themes/bootstrap/theme.css",
+              "node_modules/primeng/resources/primeng.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/variables.less",
+              "src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "deploy": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.deploy.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "demo-inheritance:build"
+          },
+          "configurations": {
+            "test": {
+              "browserTarget": "demo-inheritance:build:test"
+            },
+            "prod": {
+              "browserTarget": "demo-inheritance:build:prod"
+            },
+            "deploy": {
+              "browserTarget": "demo-inheritance:build:deploy"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "demo-inheritance:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "scripts": [],
+            "styles": [
+              "node_modules/primeng/resources/themes/bootstrap/theme.css",
+              "node_modules/primeng/resources/primeng.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/variables.less",
+              "src/styles.css"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/web.config",
+              "src/newrelic"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    },
+    "demo-inheritance-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "demo-inheritance:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "demo-inheritance",
+  "schematics": {
+    "@schematics/angular:component": {
+      "inlineTemplate": false,
+      "spec": true,
+      "prefix": "la",
+      "styleext": "css"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "la"
+    }
+  }
+}

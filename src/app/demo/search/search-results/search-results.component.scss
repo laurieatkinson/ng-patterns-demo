@@ -1,0 +1,15 @@
+@import '../../../../scss/colors';
+@import '../../../../scss/mixins';
+@include white-background();
+
+.white-bg {
+    padding-top: 1px !important;
+}
+.include-inactive {
+    position: relative;
+    float: left;
+}
+.include-inactive {
+    position: relative;
+    top: .5em;
+}

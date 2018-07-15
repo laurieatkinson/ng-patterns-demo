@@ -1,0 +1,22 @@
+<la-header-bar></la-header-bar>
+<la-top-nav></la-top-nav>
+<div class="hide-overflow">
+    <div class="overlay" [class.loading]="loading"></div>
+    <div class="container-fluid">
+        <br>
+        <br>
+        <div *ngIf="isNotAuthorizedMessageVisible()" class="container-fluid">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="alert alert-danger alert-dismissible fade in text-center" role="alert">
+                        <strong>{{notAuthorizedMessage()}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <router-outlet></router-outlet>
+    </div>
+    <div #loadingGif *ngIf="loading" class="loadingGif">
+        <img src="./assets/loading.gif" />
+    </div>
+</div>

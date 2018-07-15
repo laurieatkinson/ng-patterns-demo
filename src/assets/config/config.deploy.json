@@ -1,0 +1,23 @@
+{
+    "env": {
+        "name": "#{envName}"
+    },
+    "appInsights": {
+        "instrumentationKey": "#{appInsightsKey}"
+    },
+    "logging": {
+        "console": true,
+        "appInsights": true,
+        "traceEnabled": false
+    },
+    "aad": {
+        "requireAuth": true,
+        "tenant": "#{aadTenant}",
+        "clientId": "#{aadClientId}"
+    },
+    "apiServer": {
+        "metadata": "#{medtadataApi}",
+        "rules": "#{rulesApi}",
+        "transaction": "#{transactionApi}"
+    }
+}

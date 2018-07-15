@@ -1,0 +1,88 @@
+@import '../../../../../../scss/colors';
+@import '../../../../../../scss/mixins';
+
+.plan-header {
+    margin: -35px -15px -35px -15px;
+    padding: 1px 15px;
+    background: $background;
+    min-width: 768px;
+}
+.ui-menu.ui-menubar {
+    width: 50%;
+}
+.commitPanel {
+    /* position: absolute;
+    top: 20px;
+    right: 15px; */
+    position: fixed;
+    right: 0px;
+    background: $background;
+    z-index: 100;
+    padding: 15px 30px 0px 15px;
+    margin-right: -10px;
+    margin-top: -5px;
+}
+p, ul {
+    margin-bottom: 0;
+}
+h1 a {
+    font-weight: bold;
+}
+a {
+    color: #333;
+}
+a > i {
+    color: #666;
+}
+a:hover, a:hover > i {
+    text-decoration: none;
+    cursor: pointer;
+    color: #999 !important;
+}
+.hamburger-menu {
+    margin-top:6px;
+}
+.page-title {
+    margin-top: 5px;
+    //white-space: nowrap;
+    //overflow: hidden;
+    text-overflow: ellipsis;
+    @include font-page-title();
+    .mega-menu {
+        padding-right: 10px;
+    }
+    a {
+        font-weight: bold;
+        i {
+            font-size: 1em; 
+        }
+    }
+}
+p {
+    @include font-p();
+}
+.fixed-top {
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    margin-top:-12px;
+    padding-top:5px;
+}
+
+.plan-unlock-link {
+    font-size: 1em;
+    color: red; 
+}
+
+#pn-submit-btn {
+    @include submit-button();
+    margin-top: 0;
+}
+
+.page-title {
+    max-width: 992px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+

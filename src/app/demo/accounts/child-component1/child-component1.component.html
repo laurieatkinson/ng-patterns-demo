@@ -1,0 +1,87 @@
+<div class="main-content pad-main-content-on">
+    <la-account-header (postChanges)="postChanges()"></la-account-header>
+    <la-plan-header-menu></la-plan-header-menu>
+    <div class="row">
+        <div class="col-md-12">
+            <form [formGroup]="form">
+                <div class="form-group">
+                    <la-component-header [title]="'Child Component #1'" [form]="form" [updatePermission]="updatePermission" [isEditable]="editMode"
+                        (onSave)="save()" (toggleEdit)="toggleEditMode($event)">
+                    </la-component-header>
+                    <la-error-message [errorList]="errorsFromServer"></la-error-message>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <la-field [label]="'Account Name 1'" [editMode]="editMode" formControlName="name1"></la-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <la-field [label]="'Account Name 2'" [editMode]="editMode" formControlName="name2"></la-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <la-field [label]="'Account Name 3'" [editMode]="editMode" formControlName="name3"></la-field>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <la-field [label]="'Account Code'" [editMode]="editMode" formControlName="accountCode">
+                                    </la-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <la-list [label]="'Product'" [editMode]="editMode" [parentFormGroup]="form" [choices]="child1.productCodeList" formControlName="product"
+                                        [includeEmptyChoice]="true">
+                                    </la-list>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <la-field [label]="'Account Type'" [editMode]="editMode" formControlName="accountType">
+                                    </la-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <la-list [label]="'Account Status'" [editMode]="editMode" [parentFormGroup]="form" [choices]="child1.statusCodeList" formControlName="accountStatus"
+                                        [includeEmptyChoice]="true">
+                                    </la-list>
+                                </div>
+                            </div>
+                            <h3>Account Dates</h3>
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <la-field [label]="'Start Date'" [editMode]="editMode" formControlName="startDate" [type]="'date?'">
+                                        </la-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <la-field [label]="'Last Modified Date'" [editMode]="editMode" formControlName="lastModifiedDate" [type]="'date?'">
+                                        </la-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="margin-top: -1.3em;">
+                            <h3>Address Info</h3>
+                            <div class="well" style="margin-top: -0.3em">
+                                <la-field [label]="'Address Line 1'" [editMode]="editMode" formControlName="addressLine1">
+                                </la-field>
+                                <la-field [label]="'Address Line 2'" [editMode]="editMode" formControlName="addressLine2">
+                                </la-field>
+                                <la-field [label]="'Address Line 3'" [editMode]="editMode" formControlName="addressLine3">
+                                </la-field>
+                                <la-field [label]="'City'" [editMode]="editMode" formControlName="city">
+                                </la-field>
+                                <la-list [label]="'State'" [editMode]="editMode" [parentFormGroup]="form" [choices]="child1.stateCodeList" formControlName="state"
+                                    [includeEmptyChoice]="true">
+                                </la-list>
+                                <la-field [label]="'Zip'" [editMode]="editMode" formControlName="zip">
+                                </la-field>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+            <la-posting-confirm-dialog #postingConfirmationDialog></la-posting-confirm-dialog>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="fixed-top">
+    <div class="plan-header">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="commitPanel pull-right">
+                    <button id="pn-submit-btn" class="btn pull-right"
+                            *ngIf="canCommit()" (click)="postChangesClick()">
+                        Post All Changes
+                    </button>
+                </div>
+                <div class="page-title">
+                    <div *ngIf="!accountHeaderService.accountCode" style="display: inline-block">
+                        <la-error-message [errorList]="errorsFromServer"></la-error-message>
+                    </div>
+                    <a (click)="goToPlanHome()">
+                        {{topHeader}}
+                        <span *ngIf="accountHeaderService.accountType"> - {{accountHeaderService.accountType}}</span>
+                        <span *ngIf="accountHeaderService.accountStatus"> ({{accountHeaderService.accountStatus}})</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
