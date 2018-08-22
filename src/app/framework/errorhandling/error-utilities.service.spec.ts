@@ -1,36 +1,33 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { TestBed, inject } from '@angular/core/testing';
 import { ErrorUtilitiesService } from './error-utilities.service';
 import { INavigationError } from '../validation/models/server-error.models';
 import { UtilitiesService } from '../services/utilities.service';
 
 const errorResponse = {
-    'localizedMessage': 'Multiple validation errors',
     'details': [
         {
-            'code': 7,
-            'message': '\'Gen Min Term\' must be less than or equal to \'97\'.',
-            'target': 'genMinTerm'
+            'code': 1,
+            'message': '\'Max Term\' must be less than or equal to \'97\'.',
+            'target': 'maxTerm'
         },
         {
-            'code': 7,
-            'message': '\'Res Min Term\' must be less than or equal to \'12\'.',
-            'target': 'resMinTerm'
+            'code': 2,
+            'message': '\'Min Term\' must be less than or equal to \'12\'.',
+            'target': 'minTerm'
         }
     ],
     'code': 7,
     'message': 'Multiple validation errors',
-    'target': 'postingDto'
+    'target': 'page'
 };
 
 const navigationError: INavigationError = {
     message: 'Test',
-    navigatingTo: 'plan/ABC123/action/AB01',
+    navigatingTo: 'account/ABC123/action/AB01',
     serverError: {
         code: 1,
         message: 'An error occurred',
         details: null,
-        localizedMessage: null,
         target: null
     }
 };
@@ -57,7 +54,7 @@ describe('ErrorUtilitiesService', () => {
 
     it('should find field name in field error', inject([ErrorUtilitiesService], (service: ErrorUtilitiesService) => {
         const errorsFromServer = service.parseFieldErrors(errorResponse);
-        expect(errorsFromServer[0].fieldName).toBe('genMinTerm');
+        expect(errorsFromServer[1].fieldName).toBe('minTerm');
     }));
 
     it('should parse model errors', inject([ErrorUtilitiesService], (service: ErrorUtilitiesService) => {

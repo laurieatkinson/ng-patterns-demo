@@ -1,0 +1,72 @@
+<div [ngClass]="{'form-inline': direction==='horizontal'}">
+  <div [ngClass]="{'form-group': direction==='horizontal'}">
+    <div class="form-group">
+      <label *ngIf="editMode && label && type!='checkbox' && type!='radio' && !labelOnRight">{{label}}</label>
+      <label *ngIf="type=='checkbox'" class="checkbox-label">
+        {{label}}
+        <input *ngIf="type=='checkbox'" [laHideIfUnauthorized]="laHideIfUnauthorized"
+                [disabled]="disabled || !editMode" [attr.title]="tooltip"
+                [checked]="fieldValue" (change)="updateCheckbox($event)"
+                autocomplete="off" [type]="type" />
+        <span></span>
+      </label>
+      <p *ngIf="!editMode && type!='checkbox' && type!='radio' && !labelOnRight" class="label">{{label}}</p>
+      <p *ngIf="!editMode && type.startsWith('number') && numberFormat && (fieldValue || fieldValue === 0)"
+          [attr.title]="needTooltip() ? fieldValue : null"
+          [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+          {{fieldValue | number:numberFormat}}
+      </p>
+      <p *ngIf="!editMode && !type.startsWith('date') && type!='checkbox' &&  type!='radio' &&
+          (!numberFormat || !(fieldValue || fieldValue === 0))"
+          [attr.title]="needTooltip() ? fieldValue : null"
+          [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+          {{fieldValue}}
+      </p>
+      <p *ngIf="!editMode && type.startsWith('date')"
+          [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+          {{(fieldValue || '') | dateToString:dateFormat}}
+      </p>
+
+      <input *ngIf="editMode && !multiline && !type.startsWith('date') && type!='checkbox' && type!='radio'" class="form-control" [type]="type" step="any" [value]="fieldValue"
+        (change)="updateValue($event)" [disabled]="disabled" [laHideIfUnauthorized]="laHideIfUnauthorized" [attr.title]="tooltip"
+        autocomplete="off" />
+
+      <label *ngIf="type=='radio'" >
+          <input *ngIf="type=='radio'" (change)="updateValue($event)"
+              [laHideIfUnauthorized]="laHideIfUnauthorized"
+              [disabled]="disabled || !editMode" [attr.title]="tooltip" autocomplete="off"
+              [type]="type" [value]="radioValue" [checked]="radioChecked" [name]="radioButtonGroup"
+              (input)="doneEditing()"  />
+              <span></span> {{label}}
+      </label>
+
+      <textarea *ngIf="editMode && multiline" class="form-control" [value]="fieldValue" (change)="updateValue($event)" [attr.title]="tooltip"
+        [laHideIfUnauthorized]="laHideIfUnauthorized" [disabled]="disabled" rows='4' autocomplete="off">
+      </textarea>
+      <div *ngIf="editMode && type.startsWith('date')">
+          <div class="calendar-input-control">
+            <p-calendar *ngIf="dateFormat !== 'MM/DD'" [disabled]="disabled"
+                        [(ngModel)]="date" name="date" [attr.title]="tooltip"
+                        [monthNavigator]="!hideMonthNavigator"
+                        [yearNavigator]="!hideYearNavigator" [yearRange]="yearRange"
+                        [showOnFocus]="showCalendarOnFocus" [showIcon]="!showCalendarOnFocus"
+                        [laHideIfUnauthorized]="laHideIfUnauthorized"
+                        (onSelect)="selectDate($event)" (onBlur)="updateValue($event)" >
+            </p-calendar>
+        </div>
+        <select *ngIf="dateFormat === 'MM/DD'" class="form-control date-list" (change)="updateMonth($event)" [laHideIfUnauthorized]="laHideIfUnauthorized"
+                [(ngModel)]="selectedMonth">
+          <option *ngFor="let month of [1,2,3,4,5,6,7,8,9,10,11,12]">
+            {{month}}
+          </option>
+        </select>
+        <select *ngIf="dateFormat=='MM/DD'" class="form-control date-list" (change)="updateDay($event)" [laHideIfUnauthorized]="laHideIfUnauthorized"
+                [(ngModel)]="selectedDay">
+          <option *ngFor="let day of days">
+            {{day}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

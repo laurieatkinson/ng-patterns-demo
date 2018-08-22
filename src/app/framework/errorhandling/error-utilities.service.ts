@@ -9,7 +9,7 @@ export class ErrorUtilitiesService {
         if (error && error.details && error.details.length > 0) {
             error.details.forEach(detail => {
                 const fieldName = detail.target;
-                const errorMessage = detail.message ? detail.message : error.localizedMessage;
+                const errorMessage = detail.message ? detail.message : error.message;
                 parsedErrors.push({ fieldName: fieldName, errorMessage: errorMessage });
             });
         }
@@ -17,8 +17,8 @@ export class ErrorUtilitiesService {
     }
 
     parseModelErrors(error: IServerError | string) {
-        if (error && (<IServerError>error).localizedMessage) {
-            return [(<IServerError>error).localizedMessage];
+        if (error && (<IServerError>error).message) {
+            return [(<IServerError>error).message];
         }
         return [<string>error];
     }
@@ -42,7 +42,7 @@ export class ErrorUtilitiesService {
         } else if (error) {
             if (error.details && error.details.length > 0) {
                 error.details.forEach(detail => {
-                    const errorMessage = detail.message ? detail.message : error.localizedMessage;
+                    const errorMessage = detail.message ? detail.message : error.message;
                     errorsFromServer.push(errorMessage);
                 });
             }

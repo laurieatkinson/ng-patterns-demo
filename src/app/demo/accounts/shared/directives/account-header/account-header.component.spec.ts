@@ -6,18 +6,18 @@ import { TestInjector, MockUserSessionService, MockActivatedRoute } from '../../
 import { AccountHeaderComponent } from './account-header.component';
 import { AccountHeaderService } from './account-header.service';
 import { IAccount } from '../../models/account.models';
-import { PostingService } from '../../../../../demo-common/services/posting.service';
+import { TransactionService } from '../../../../../demo-common/services/transaction.service';
 import { GlobalEventsService } from '../../../../../framework/services/global-events.service';
 
 const account = {
     accountCode: 'ABC123',
-    name1: 'Test Account'
+    accountName: 'Test Account'
 };
 
 class MockAccountDataService {
     currentAccount = {
         accountCode: 'ABC123',
-        accountName1: 'Test Account',
+        accountName: 'Test Account',
         accountType: 'Personal',
         accountStatus: 'Active'
     };
@@ -45,7 +45,7 @@ describe('AccountHeaderComponent', () => {
             TestInjector.getService(Router),
             new MockActivatedRoute(),
             new AccountHeaderService(<any>new MockAccountDataService(), new MockUserSessionService()),
-            TestInjector.getService(PostingService),
+            TestInjector.getService(TransactionService),
             TestInjector.getService(UserSessionService),
             TestInjector.getService(GlobalEventsService));
     });

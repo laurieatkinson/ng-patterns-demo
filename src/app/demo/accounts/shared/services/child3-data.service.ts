@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PostingEntityDataService } from '../../../../demo-common/services/posting-entity-data.service';
+import { TransactionEntityDataService } from '../../../../demo-common/services/transaction-entity-data.service';
 import { IChild3Entity } from '../models/child3-entity.models';
 
 @Injectable()
-export class Child3DataService extends PostingEntityDataService {
+export class Child3DataService extends TransactionEntityDataService {
 
     getChild3(): Promise<IChild3Entity> {
         const endpoint = this.endpointWithTransactionId();

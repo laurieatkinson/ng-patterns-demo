@@ -4,7 +4,6 @@ import { IServerError } from '../validation/models/server-error.models';
 import { TestInjector } from '../../demo-common/testing/testing-helpers';
 
 const serverError = {
-    localizedMessage: 'Test Error',
     details: [
         {
             code: 1,
@@ -13,7 +12,7 @@ const serverError = {
         }
     ],
     code: 1,
-    message: 'Validation Error',
+    message: 'Test Error',
     target: 'field'
 };
 
@@ -39,7 +38,7 @@ describe('BaseComponent', () => {
 
     it('can populate error with no form', () => {
         const errorList = component.populateErrors(serverError);
-        expect(errorList[0]).toBe('Validation Error');
+        expect(errorList[0]).toBe('Test Error');
         expect(errorList[1]).toBe('Field Error');
     });
 

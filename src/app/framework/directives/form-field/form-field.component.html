@@ -1,0 +1,96 @@
+<div [ngClass]="{'form-inline': direction==='horizontal'}">
+    <div [ngClass]="{'form-group': direction==='horizontal'}">
+        <div class="form-group">
+            <label *ngIf="editMode && label && type!='checkbox' &&  type!='radio'  && !labelOnRight">{{label}}</label>
+            <label *ngIf="type=='checkbox'" class="checkbox-label" [attr.title]="tooltipToShow()">
+                {{label}}
+                <input *ngIf="type=='checkbox'" (change)="updateCheckedValue($event)"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized"
+                    [disabled]="ngControl.disabled || !editMode || readOnlyWithValidation" [attr.title]="tooltipToShow()" autocomplete="off"
+                    [type]="type" [checked]="fieldValue" (input)="doneEditing()" />
+                    <span></span>
+            </label>
+            <p *ngIf="!editMode && type!='checkbox' &&  type!='radio' && !labelOnRight" class="label">{{label}}</p>
+            <p *ngIf="!editMode && type.startsWith('number') && numberFormat && (fieldValue || fieldValue === 0)"
+                [attr.title]="needTooltipForChoppedOffValue() ? fieldValue : tooltipToShow()"
+                [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+                {{numberFormat === 'currency' ? (fieldValue | currency:'USD':true) : (fieldValue | number:numberFormat)}}
+            </p>
+            <p *ngIf="!editMode && !type.startsWith('date') && type!='checkbox' &&  type!='radio' &&
+                      (!numberFormat || !(fieldValue || fieldValue === 0))"
+                [attr.title]="needTooltipForChoppedOffValue() ? fieldValue : tooltipToShow()"
+                [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+                {{fieldValueWhenNotEditing()}}
+            </p>
+            <p *ngIf="!editMode && type.startsWith('date')" [attr.title]="tooltipToShow()"
+                [ngClass]="{'inline-header': direction==='horizontal'}" class="readOnly">
+                {{fieldValue | dateToString:dateFormat}}
+            </p>
+
+            <input *ngIf="editMode && !multiline && !mask && !type.startsWith('date') && type!='checkbox' &&  type!='radio'"
+                    class="form-control"
+                    [type]="type.replace('?','')" step="any" [value]="fieldValue"
+                    [disabled]="ngControl.disabled || readOnlyWithValidation"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized"
+                    [attr.title]="tooltipToShow()" autocomplete="off"
+                    (input)="updateValue($event)" (blur)="doneEditing()" />
+
+            <p-inputMask *ngIf="editMode && mask" [unmask]="useUnmaskedValue"
+                    [mask]="mask" [(ngModel)]="maskFieldValue"
+                    [disabled]="ngControl.disabled || readOnlyWithValidation"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized"
+                    [attr.title]="tooltipToShow()"
+                    (onBlur)="doneEditing()">
+            </p-inputMask>
+
+            <label *ngIf="type=='radio'">
+                <input *ngIf="type=='radio'" (change)="updateValue($event)"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized"
+                    [disabled]="ngControl.disabled || !editMode || readOnlyWithValidation" [attr.title]="tooltipToShow()" autocomplete="off"
+                    [type]="type" [value]="radioValue"  [checked]="radioChecked" [name]="radioButtonGroup" (input)="doneEditing()"  />
+                    <span></span> {{label}}
+            </label>
+
+            <!-- IMPORTANT the inner text of textarea tag below must not have any space or HTML formatting 
+                in it or the same spaces will be added to the value of the multiline pn-field
+            -->
+            <textarea *ngIf="editMode && multiline" class="form-control" (input)="updateValue($event)"
+                    [attr.title]="tooltipToShow()"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized"
+                    [disabled]="ngControl.disabled || readOnlyWithValidation" rows='4' (blur)="doneEditing()" autocomplete="off">{{fieldValue}}</textarea>
+            <div *ngIf="editMode && type.startsWith('date')">
+                <div class="calendar-input-control">
+                    <p-calendar *ngIf="dateFormat !== 'MM/DD'" [disabled]="ngControl.disabled || readOnlyWithValidation"
+                                name="date" [attr.title]="tooltipToShow()" (onBlur)="updateValue($event)"
+                                [monthNavigator]="!hideMonthNavigator"
+                                [yearNavigator]="!hideYearNavigator" [yearRange] = "yearRange"
+                                [showOnFocus]="showCalendarOnFocus" [showIcon]="!showCalendarOnFocus"
+                                [laHideIfUnauthorized]="laHideIfUnauthorized" [(ngModel)]="date"
+                                (onSelect)="selectDate($event)">
+                    </p-calendar>
+                </div>
+                <select *ngIf="dateFormat === 'MM/DD'" class="form-control date-list" (change)="updateMonth($event)"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized" [(ngModel)]="selectedMonth"
+                    [attr.title]="tooltipToShow()">
+                    <option *ngFor="let month of [1,2,3,4,5,6,7,8,9,10,11,12]">
+                        {{month}}
+                    </option>
+                </select>
+                <select *ngIf="dateFormat=='MM/DD'" class="form-control date-list" (change)="updateDay($event)"
+                    [laHideIfUnauthorized]="laHideIfUnauthorized" [(ngModel)]="selectedDay"
+                    [attr.title]="tooltipToShow()">
+                    <option *ngFor="let day of days">
+                        {{day}}
+                    </option>
+                </select>
+            </div>
+            <label *ngIf="type!='checkbox' &&  type!='radio' && labelOnRight" class="topAlignLabel">{{label}}</label>
+        </div>
+        <div *ngIf="ngControl" [hidden]="!ngControl.errors"
+            [ngClass]="{'text-danger': ngControl.invalid || readOnlyWithValidation, 'text-info': ngControl.disabled}">
+            <div *ngFor="let error of ngControl.errors | displayError">
+                {{error}}
+            </div>
+        </div>
+    </div>
+</div>

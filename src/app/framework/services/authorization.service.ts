@@ -12,7 +12,8 @@ export class AuthorizationService {
     }
 
     hasPermission(action: ActionCode) {
-        if (!AppConfig.settings.aad.requireAuth || !action) {
+        // if (!AppConfig.settings.aad.requireAuth || !action) {
+            if (!action) {
             return true;
         }
         if (this.permissions && this.permissions.find(permission => {

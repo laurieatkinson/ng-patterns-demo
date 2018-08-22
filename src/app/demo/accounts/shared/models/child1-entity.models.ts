@@ -1,5 +1,5 @@
 import { IPartsListChoice } from '../../../../framework/models/form-controls.models';
-import { IEntity } from '../../../../demo-common/models/postings.models';
+import { IEntity } from '../../../../demo-common/models/transaction.models';
 
 export interface IChild1Entity extends IEntity {
     accountCode: string;
@@ -20,4 +20,5 @@ export interface IChild1Entity extends IEntity {
     statusCodeList: Array<IPartsListChoice>;
     productCodeList: Array<IPartsListChoice>;
     stateCodeList: Array<IPartsListChoice>;
+    accountTypeList: Array<IPartsListChoice>;
 }

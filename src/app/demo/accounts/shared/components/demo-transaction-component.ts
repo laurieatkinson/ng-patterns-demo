@@ -3,18 +3,19 @@ import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } f
 import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ICanComponentDeactivate } from '../../../../framework/services/can-deactivate-guard.service';
-import { PostingConfirmDialogComponent } from '../../../../demo-common/directives/posting-confirm-dialog/posting-confirm-dialog.component';
-import { PostingEntityDataService } from '../../../../demo-common/services/posting-entity-data.service';
+import { TransactionConfirmDialogComponent
+} from '../../../../demo-common/directives/transaction-confirm-dialog/transaction-confirm-dialog.component';
+import { TransactionEntityDataService } from '../../../../demo-common/services/transaction-entity-data.service';
 import { UtilitiesService } from '../../../../framework/services/utilities.service';
-import { PostingService } from '../../../../demo-common/services/posting.service';
-import { PartsFormBuilderService } from '../../../../framework/services/parts-form-builder.service';
+import { TransactionService } from '../../../../demo-common/services/transaction.service';
+import { FormBuilderService } from '../../../../framework/services/form-builder.service';
 import { BaseComponent } from '../../../../framework/components/base-component';
 import { ConfirmChoice } from '../../../../framework/models/confirm-choices.enum';
 import { UserSessionService } from '../../../../demo-common/services/user-session.service';
-import { PartsValidationService } from '../../../../framework/validation/services/parts-validation.service';
-import { PlanUpdateService } from '../services/plan-update.service';
+import { ValidationService } from '../../../../framework/validation/services/validation.service';
+import { UpdateService } from '../services/update.service';
 import { AccountHeaderComponent } from '../directives/account-header/account-header.component';
-import { IEntity } from '../../../../demo-common/models/postings.models';
+import { IEntity } from '../../../../demo-common/models/transaction.models';
 import { IPartsFormControl } from '../../../../framework/models/form-controls.models';
 import { IServerError } from '../../../../framework/validation/models/server-error.models';
 import { AppInjector } from '../../../../app-injector.service';
@@ -39,19 +40,19 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     protected router: Router;
     protected allowSaveOnExit = true;
     protected saveWarningMessage = 'Data has changed.\n\n';
-    protected dataService: PostingEntityDataService;
-    protected postingService: PostingService;
-    protected partsFormBuilderService: PartsFormBuilderService;
-    protected partsValidationService: PartsValidationService;
+    protected dataService: TransactionEntityDataService;
+    protected transactionService: TransactionService;
+    protected formBuilderService: FormBuilderService;
+    protected validationService: ValidationService;
     protected userSessionService: UserSessionService;
-    protected planUpdateService: PlanUpdateService;
+    protected updateService: UpdateService;
     protected authorizationService: AuthorizationService;
     private confirmedSubscription: Subscription;
     private updatingForm = false;
     private initializingEntity = false;
     private currentValidators: Array<ICurrentControlValidators> = [];
 
-    @ViewChild('postingConfirmationDialog') confirmationDialog: PostingConfirmDialogComponent;
+    @ViewChild('transactionConfirmationDialog') confirmationDialog: TransactionConfirmDialogComponent;
     @ViewChild(AccountHeaderComponent) private accountHeaderComponent: AccountHeaderComponent;
 
     constructor(protected route: ActivatedRoute) {
@@ -59,12 +60,12 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
 
         const injector = AppInjector.getInstance().getInjector();
         this.router = injector.get(Router);
-        this.postingService = injector.get(PostingService);
+        this.transactionService = injector.get(TransactionService);
         this.formBuilder = injector.get(FormBuilder);
-        this.partsFormBuilderService = injector.get(PartsFormBuilderService);
-        this.partsValidationService = injector.get(PartsValidationService);
+        this.formBuilderService = injector.get(FormBuilderService);
+        this.validationService = injector.get(ValidationService);
         this.userSessionService = injector.get(UserSessionService);
-        this.planUpdateService = injector.get(PlanUpdateService);
+        this.updateService = injector.get(UpdateService);
         this.authorizationService = injector.get(AuthorizationService);
     }
 
@@ -105,7 +106,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         return '';
     }
 
-    get linkToPlan() {
+    get linkToAccount() {
         return `/accounts/${this.userSessionService.accountCode}`;
     }
 
@@ -120,8 +121,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     subscribeToPostingCommitted() {
         // The posting can be committed from any component, so let the child component
         // update itself by implementing commitComplete()
-        if (this.postingService.postingCommitted) {
-            this.eventSubscriptions.push(this.postingService.postingCommitted.subscribe(
+        if (this.transactionService.transactionCommitted) {
+            this.eventSubscriptions.push(this.transactionService.transactionCommitted.subscribe(
                 (postId) => {
                     this.commitComplete();
                 }));
@@ -147,10 +148,10 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         let commitNeeded = false;
         const hasChanged = this.hasChanged();
 
-        // If navigating to a different plan (or as-of-date), these changes must be committed
+        // If navigating to a different account, these changes must be committed
         // if a posting has been created due to a previous change
         if (this.navigatingAwayFromParent(nextState) &&
-            ((hasChanged && this.allowSaveOnExit) || this.postingService.currentPostingNotCommitted())) {
+            ((hasChanged && this.allowSaveOnExit) || this.transactionService.currentTransactionNotCommitted())) {
             commitNeeded = true;
         }
 
@@ -166,7 +167,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         // Attempt to commit changes
         this.showConfirmationDialog(true, true).then((commitAction) => {
             if (commitAction !== ConfirmChoice.cancel) {
-                this.router.navigate([this.linkToPlan]);
+                this.router.navigate([this.linkToAccount]);
             }
         });
     }
@@ -201,7 +202,6 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
             this.confirmationDialog.allowSave = this.allowSaveOnExit && saveNeeded;
             this.confirmationDialog.confirm = commitNeeded;
             this.confirmationDialog.description = '';
-            this.confirmationDialog.show();
             this.confirmedSubscription = this.confirmationDialog.confirmed.subscribe((choice: ConfirmChoice) => {
                 // Immediately unsubscribe since we resubscribe everytime the dialog is shown again
                 this.confirmedSubscription.unsubscribe();
@@ -219,14 +219,14 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                                 return resolve(ConfirmChoice.cancel);
                             } else {
                                 if (commitNeeded) {
-                                    this.postingService.commitPosting(description).then(() => {
+                                    this.transactionService.commitTransaction(description).then(() => {
                                         this.commitComplete();
                                         return resolve(choice);
                                     }) // Unable to navigate away due an error committing posting
                                         .catch((error: IServerError) => {
                                             if (error.message && error.message.indexOf('synchronization is still in progress') !== -1) {
                                                 this.userSessionService.clearAccount();
-                                                this.postingService.clearPosting();
+                                                this.transactionService.clearTransaction();
                                                 this.routeToSearchResultsWithError(error);
                                                 return resolve(ConfirmChoice.cancel);
                                             } else {
@@ -242,7 +242,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                         }); // No catch needed because save() always resolves and never rejects
                     } else {
                         if (commitNeeded) {
-                            this.postingService.commitPosting(description).then(() => {
+                            this.transactionService.commitTransaction(description).then(() => {
                                 this.commitComplete();
                                 return resolve(choice);
                             })
@@ -257,13 +257,13 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                     }
                 } else if (choice === ConfirmChoice.discard) {
                     // If NO, then navigate away without saving
-                    // If necessary, rollback posting
+                    // If necessary, rollback transaction
                     if (commitNeeded) {
-                        this.postingService.rollbackPosting().then(() => {
+                        this.transactionService.rollbackTransaction().then(() => {
                             this.rollbackComplete().then(() => {
                                 return resolve(choice);
                             });
-                        }) // Unable to navigate away due an error rolling back posting
+                        }) // Unable to navigate away due an error rolling back transaction
                             .catch((error) => {
                                 this.errorsFromServer = this.populateErrors(error, this.getFormGroupToValidate());
                                 this.setBackIfNotDeactivated();
@@ -279,6 +279,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
             }, (err) => {
                 this.logError(err);
             });
+            this.confirmationDialog.show();
         });
     }
 
@@ -287,8 +288,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         const parameter = this.getAdditionalParamFromRoute();
 
         const promise = new Promise<void>((resolve, reject) => {
-            this.partsFormBuilderService.buildModelDrivenForm(
-                this.form, this.formControls, this.partsValidationService,
+            this.formBuilderService.buildModelDrivenForm(
+                this.form, this.formControls, this.validationService,
                 this.dataService, this.formGroupToValidate, parameter)
                 .then((validators: Array<ICurrentControlValidators>) => {
                     // Store a list of all the validators on each control
@@ -342,7 +343,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                 formGroup = <FormGroup>formGroup.controls[formGroupName];
             }
         }
-        const updatedControlValidators = this.partsValidationService.applyClientOnlyValidationRule(
+        const updatedControlValidators = this.validationService.applyClientOnlyValidationRule(
             formGroup, fieldName, validators, this.currentValidators, warnings);
         const existingControlValidator = this.currentValidators.find(item => {
             return item.control === updatedControlValidators.control;
@@ -358,7 +359,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         return this.postingEntity;
     }
 
-    save(alternateDataService?: PostingEntityDataService, alternateEntity?: IEntity) {
+    save(alternateDataService?: TransactionEntityDataService, alternateEntity?: IEntity) {
         const dataService = alternateDataService ? alternateDataService : this.dataService;
         let saveEntity = alternateEntity ? alternateEntity : this.saveEntity;
 
@@ -366,7 +367,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         const promise = new Promise<void | IServerError>((resolve, reject) => {
             this.errorsFromServer = [];
             if (this.isNew()) {
-                this.planUpdateService.add<IEntity>(dataService, saveEntity)
+                this.updateService.add<IEntity>(dataService, saveEntity)
                     .then((updatedEntity) => {
                         if (alternateDataService && alternateDataService !== this.dataService) {
                             this.editMode = false;
@@ -381,7 +382,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                     });
             } else {
                 const parameter = this.getAdditionalParamFromRoute();
-                this.planUpdateService.update<IEntity>(dataService, saveEntity, parameter)
+                this.updateService.update<IEntity>(dataService, saveEntity, parameter)
                     .then((updatedEntity) => {
                         if (alternateDataService && alternateDataService !== this.dataService) {
                             this.editMode = false;
@@ -406,7 +407,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
 
     rollbackComplete() {
         // Optionally implement in children
-        // Also, must re-retrieve the plan header data because the user may
+        // Also, must re-retrieve the header data because the user may
         // have changed this data and now it has been rolledback
         return this.accountHeaderComponent.refresh();
     }

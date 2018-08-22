@@ -12,12 +12,12 @@
     },
     "aad": {
         "requireAuth": false,
-        "tenant": "<your-guid-here>",
-        "clientId": "<your-guid-here>"
+        "tenant": "microsoft.onmicrosoft.com",
+        "clientId": "1d99e069-853e-4097-8485-142393b876db"
     },
     "apiServer": {
         "metadata": "http://localhost:56767/api/",
         "rules": "http://localhost:54084/api/",
-        "transaction": ""
+        "transaction": "http://localhost:60101/api/"
     }
 }

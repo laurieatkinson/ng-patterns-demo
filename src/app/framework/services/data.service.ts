@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { AppInjector } from '../../app-injector.service';
 import { UtilitiesService } from './utilities.service';
-import { PartsLoggingService } from '../logging/parts-logging.service';
+import { LoggingService } from '../logging/logging.service';
 import { GlobalEventsService } from './global-events.service';
 import { AppConfig } from '../../app.config';
 import { AuthService } from './auth.service';
@@ -23,7 +23,7 @@ export class DataService {
     constructor(protected http: HttpClient,
                 protected authService: AuthService,
                 protected utilitiesService: UtilitiesService,
-                protected partsLoggingService: PartsLoggingService,
+                protected loggingService: LoggingService,
                 protected globalEventsService: GlobalEventsService,
                 private router: Router
             ) {
@@ -253,7 +253,7 @@ export class DataService {
 
     private logError(error: { url: string, body?: any, response: any }) {
 
-        this.partsLoggingService.logError(error.response);
+        this.loggingService.logError(error.response);
 
         try {
             if (error.response._body && JSON.parse(error.response._body).error) {

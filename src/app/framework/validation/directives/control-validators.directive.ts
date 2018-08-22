@@ -1,5 +1,4 @@
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { INumericRangeValidator } from '../models/validation.models';
+import { AbstractControl } from '@angular/forms';
 import { UtilitiesService } from '../../services/utilities.service';
 import { SystemMessageService } from '../../services/system-message.service';
 import { AppInjector } from '../../../app-injector.service';
@@ -41,7 +40,8 @@ export class ControlValidators {
         };
     }
 
-    static minValueValidator = (min: number, inclusive: boolean,errorMessageOrId: string | number, errorParameters?: Array<string>, allowZero?: boolean) => {
+    static minValueValidator = (min: number, inclusive: boolean,
+        errorMessageOrId: string | number, errorParameters?: Array<string>, allowZero?: boolean) => {
         return (control: AbstractControl) => {
             if (control.value === null) {
                 return null;

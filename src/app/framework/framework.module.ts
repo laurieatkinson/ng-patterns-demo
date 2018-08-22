@@ -24,31 +24,31 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { UtilitiesService } from './services/utilities.service';
 import { GlobalEventsService } from './services/global-events.service';
 import { CanDeactivateGuardService } from './services/can-deactivate-guard.service';
-import { PartsFormBuilderService } from './services/parts-form-builder.service';
-import { PartsErrorHandlerService } from './errorhandling/parts-error-handler.service';
+import { FormBuilderService } from './services/form-builder.service';
+import { ErrorHandlerService } from './errorhandling/error-handler.service';
 import { ErrorUtilitiesService } from './errorhandling/error-utilities.service';
 import { MetadataDataService } from './services/metadata-data.service';
 import { MetadataService } from './services/metadata.service';
-import { PartsLoggingService } from './logging/parts-logging.service';
+import { LoggingService } from './logging/logging.service';
 import { AuthorizationService } from './services/authorization.service';
 import { AuthorizationDataService } from './services/authorization-data.service';
 import { SystemMessageService } from './services/system-message.service';
 import { SystemMessageDataService } from './services/system-message-data.service';
 import { BaseComponent } from './components/base-component';
-import { PartsAccordionComponent } from './directives/parts-accordion/parts-accordion.component';
-import { PartsAlertComponent } from './directives/parts-alert/parts-alert.component';
-import { PartsCalendarComponent } from './directives/parts-calendar/parts-calendar.component';
-import { PartsConfirmDialogComponent } from './directives/parts-confirm-dialog/parts-confirm-dialog.component';
-import { PartsDataTableComponent } from './directives/parts-data-table/parts-data-table.component';
-import { PartsFieldComponent } from './directives/parts-field/parts-field.component';
-import { PartsListComponent } from './directives/parts-list/parts-list.component';
-import { PartsMenuComponent } from './directives/parts-menu/parts-menu.component';
-import { PartsHideIfUnauthorizedDirective } from './directives/parts-hide-if-unauthorized/parts-hide-if-unauthorized.directive';
-import { PartsDisableIfUnauthorizedDirective } from './directives/parts-disable-if-unauthorized/parts-disable-if-unauthorized.directive';
-import { PartsDialogComponent } from './directives/parts-dialog/parts-dialog.component';
+import { AccordionComponent } from './directives/accordion/accordion.component';
+import { AlertComponent } from './directives/alert/alert.component';
+import { CalendarComponent } from './directives/calendar/calendar.component';
+import { ConfirmDialogComponent } from './directives/confirm-dialog/confirm-dialog.component';
+import { DataTableComponent } from './directives/data-table/data-table.component';
+import { FormFieldComponent } from './directives/form-field/form-field.component';
+import { FormListComponent } from './directives/form-list/form-list.component';
+import { MenuComponent } from './directives/menu/menu.component';
+import { HideIfUnauthorizedDirective } from './directives/hide-if-unauthorized/hide-if-unauthorized.directive';
+import { DisableIfUnauthorizedDirective } from './directives/disable-if-unauthorized/disable-if-unauthorized.directive';
+import { DialogComponent } from './directives/dialog/dialog.component';
 import { ValidationModule } from './validation/validation.module';
-import { PartsErrorMessageComponent } from './directives/parts-error-message/parts-error-message.component';
-import { PartsInputComponent } from './directives/parts-input/parts-input.component';
+import { ErrorMessageComponent } from './directives/error-message/error-message.component';
+import { InputComponent } from './directives/input/input.component';
 import { DateToStringPipe } from './pipes/date-to-string.pipe';
 
 @NgModule({
@@ -77,19 +77,19 @@ import { DateToStringPipe } from './pipes/date-to-string.pipe';
     ],
     declarations: [
         BaseComponent,
-        PartsAccordionComponent,
-        PartsAlertComponent,
-        PartsCalendarComponent,
-        PartsConfirmDialogComponent,
-        PartsDataTableComponent,
-        PartsFieldComponent,
-        PartsListComponent,
-        PartsMenuComponent,
-        PartsDialogComponent,
-        PartsHideIfUnauthorizedDirective,
-        PartsDisableIfUnauthorizedDirective,
-        PartsErrorMessageComponent,
-        PartsInputComponent,
+        AccordionComponent,
+        AlertComponent,
+        CalendarComponent,
+        ConfirmDialogComponent,
+        DataTableComponent,
+        FormFieldComponent,
+        FormListComponent,
+        MenuComponent,
+        DialogComponent,
+        ErrorMessageComponent,
+        InputComponent,
+        HideIfUnauthorizedDirective,
+        DisableIfUnauthorizedDirective,
         DateToStringPipe
     ],
     providers: [
@@ -97,37 +97,37 @@ import { DateToStringPipe } from './pipes/date-to-string.pipe';
         AuthService,
         AuthGuardService,
         CanDeactivateGuardService,
-        PartsFormBuilderService,
-        PartsErrorHandlerService,
+        FormBuilderService,
+        ErrorHandlerService,
         AuthorizationService,
         AuthorizationDataService,
         UtilitiesService,
         ErrorUtilitiesService,
-        PartsLoggingService,
+        LoggingService,
         MetadataDataService,
         MetadataService,
         SystemMessageService,
         SystemMessageDataService,
-        { provide: ErrorHandler, useClass: PartsErrorHandlerService }
+        { provide: ErrorHandler, useClass: ErrorHandlerService }
     ],
     exports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
         DialogModule,
-        PartsAccordionComponent,
-        PartsAlertComponent,
-        PartsCalendarComponent,
-        PartsConfirmDialogComponent,
-        PartsDataTableComponent,
-        PartsFieldComponent,
-        PartsListComponent,
-        PartsMenuComponent,
-        PartsDialogComponent,
-        PartsErrorMessageComponent,
-        PartsInputComponent,
-        PartsHideIfUnauthorizedDirective,
-        PartsDisableIfUnauthorizedDirective,
+        AccordionComponent,
+        AlertComponent,
+        CalendarComponent,
+        ConfirmDialogComponent,
+        DataTableComponent,
+        FormFieldComponent,
+        FormListComponent,
+        MenuComponent,
+        DialogComponent,
+        ErrorMessageComponent,
+        InputComponent,
+        HideIfUnauthorizedDirective,
+        DisableIfUnauthorizedDirective,
         DateToStringPipe
     ]
 })

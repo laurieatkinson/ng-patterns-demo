@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AppInjector } from '../../app-injector.service';
 import { UtilitiesService } from '../../framework/services/utilities.service';
 import { UserSessionService } from './user-session.service';
 import { GlobalEventsService } from '../../framework/services/global-events.service';
 import { IServerError } from '../../framework/validation/models/server-error.models';
 import { SystemMessageService } from '../../framework/services/system-message.service';
-import { PostingService } from './posting.service';
+import { TransactionService } from './transaction.service';
 
 @Injectable()
 export class DemoResolver {
@@ -16,7 +16,7 @@ export class DemoResolver {
     protected utilitiesService: UtilitiesService;
     protected globalEventsService: GlobalEventsService;
     protected systemMessageService: SystemMessageService;
-    protected postingService: PostingService;
+    protected transactionService: TransactionService;
     private navigatingToUrl: string;
 
     constructor() {
@@ -28,7 +28,7 @@ export class DemoResolver {
         this.userSessionService = injector.get(UserSessionService);
         this.globalEventsService = injector.get(GlobalEventsService);
         this.systemMessageService = injector.get(SystemMessageService);
-        this.postingService = injector.get(PostingService);
+        this.transactionService = injector.get(TransactionService);
     }
 
     resolve(route: ActivatedRouteSnapshot) {

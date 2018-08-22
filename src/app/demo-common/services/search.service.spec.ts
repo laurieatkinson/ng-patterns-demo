@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { IAccountSearchResult } from '../models/account-search-result.models';
 import { SearchDataService } from './search-data.service';
 import { SearchService } from './search.service';
@@ -47,11 +47,11 @@ describe('SearchService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('can get accounts', () => {
+    it('can get accounts', async(() => {
         service.getAccounts().then(accounts => {
             expect(accounts.length).toBe(2);
         }).catch(error => {
             expect(error).toBeNull();
         });
-    });
+    }));
 });

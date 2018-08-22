@@ -7,26 +7,26 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/combineLatest';
 import { AppInjector } from '../../app-injector.service';
-import { PostingEntityDataService } from '../services/posting-entity-data.service';
-import { PartsLoggingService } from '../../framework/logging/parts-logging.service';
+import { TransactionEntityDataService } from '../services/transaction-entity-data.service';
+import { LoggingService } from '../../framework/logging/logging.service';
 import { AuthorizationService } from '../../framework/services/authorization.service';
-import { PlanUpdateService } from '../../demo/accounts/shared/services/plan-update.service';
+import { UpdateService } from '../../demo/accounts/shared/services/update.service';
 import { AccountDataService } from '../../demo/accounts/shared/services/account-data.service';
 import { SystemMessageService } from '../../framework/services/system-message.service';
 import { UserSessionService } from '../services/user-session.service';
-import { PartsFormBuilderService } from '../../framework/services/parts-form-builder.service';
-import { PostingService } from '../services/posting.service';
+import { FormBuilderService } from '../../framework/services/form-builder.service';
+import { TransactionService } from '../services/transaction.service';
 import { GlobalEventsService } from '../../framework/services/global-events.service';
 import { ErrorUtilitiesService } from '../../framework/errorhandling/error-utilities.service';
-import { IAccountTransactionObject, IEntity } from '../models/postings.models';
+import { IAccountTransactionObject, IEntity } from '../models/transaction.models';
 import { IPartsFormControl, IPartsListChoice } from '../../framework/models/form-controls.models';
 import { IAccount } from '../../demo/accounts/shared/models/account.models';
 import { UtilitiesService } from '../../framework/services/utilities.service';
 import { DataService } from '../../framework/services/data.service';
-import { PartsValidationService } from '../../framework/validation/services/parts-validation.service';
+import { ValidationService } from '../../framework/validation/services/validation.service';
 import { AuthService } from '../../framework/services/auth.service';
 
-const mockPostingObject: IAccountTransactionObject = {
+const mockTransactionObject: IAccountTransactionObject = {
     accountCode: 'XYZ123',
     accountName: 'Account Name Here',
     transactionId: 2132,
@@ -45,14 +45,14 @@ export class MockLoggingService {
     }
 }
 
-export class MockPostingService {
+export class MockTransactionService {
     currentPostId1 = '';
-    private postingCommittedSource = new Subject<string>();
-    postingCommitted = this.postingCommittedSource.asObservable();
+    private transactionCommittedSource = new Subject<string>();
+    transactionCommitted = this.transactionCommittedSource.asObservable();
     commitPosting() {
         return new Promise<string>((resolve) => {
             this.currentPostId1 = '';
-            this.postingCommittedSource.next();
+            this.transactionCommittedSource.next();
             resolve(this.currentPostId1);
         });
     }
@@ -63,12 +63,12 @@ export class MockPostingService {
     clearPostId() {
         this.currentPostId1 = '';
     }
-    getPostingIdentifier() {
+    getTransactionIdentifier() {
         return Promise.resolve(this.currentPostId1);
     }
-    getPostingObject() {
+    getTransactionObject() {
         const promise = new Promise<IAccountTransactionObject>((resolve, reject) => {
-            resolve(mockPostingObject);
+            resolve(mockTransactionObject);
         });
         return promise;
     }
@@ -102,8 +102,8 @@ export class MockAppConfig {
         aad: {},
         apiServer: {
             metadata: '',
-            planRule: '',
-            posting: '',
+            rules: '',
+            transaction: '',
         },
         appInsights: {},
         logging: {}
@@ -135,7 +135,7 @@ export class MockDataService extends DataService {
     }
 }
 
-export class MockPostingEntityDataService extends PostingEntityDataService {
+export class MockTransactionEntityDataService extends TransactionEntityDataService {
 
     protected apiServer = {
         metadata: '',
@@ -170,9 +170,9 @@ export class MockMetadataService {
     }
 }
 
-export class MockPartsFormBuilderService {
+export class MockFormBuilderService {
     buildModelDrivenForm(formGroup: FormGroup, formControls: IPartsFormControl[],
-        partsValidationService: PartsValidationService,
+        validationService: ValidationService,
         dataService: DataService, formGroupToValidate: string, ruleSet?: string) {
 
         formControls.forEach(control => {
@@ -187,28 +187,28 @@ export class MockPartsFormBuilderService {
     }
 }
 
-export class MockPartsValidationService extends PartsValidationService {
+export class MockValidationService extends ValidationService {
     applyValidationRules() {
         return Promise.resolve([]);
     }
 }
 
-export class MockPlanUpdateService {
+export class MockUpdateService {
 
-    add<T>(dataService: PostingEntityDataService, postingEntity: IEntity) {
+    add<T>(dataService: TransactionEntityDataService, entity: IEntity) {
         return new Promise<IEntity>((resolve) => {
-            resolve(postingEntity);
+            resolve(entity);
         });
     }
 
-    update<T>(dataService: PostingEntityDataService, postingEntity: IEntity) {
+    update<T>(dataService: TransactionEntityDataService, entity: IEntity) {
         return new Promise<IEntity>((resolve) => {
-            postingEntity.transactionIdentifier.id = -1;
-            resolve(postingEntity);
+            entity.transactionIdentifier.id = -1;
+            resolve(entity);
         });
     }
 
-    updateArray<T>(dataService: PostingEntityDataService, entities: Array<IEntity>) {
+    updateArray<T>(dataService: TransactionEntityDataService, entities: Array<IEntity>) {
         return new Promise<Array<IEntity>>((resolve) => {
             entities[0].transactionIdentifier.id = -1;
             resolve(entities);
@@ -263,14 +263,6 @@ export class MockSystemMessageService {
     getMessage(id: number, errorParameters?: Array<string>) {
         return 'Error message';
     }
-
-    getTooltip(fieldName: string, component: string) {
-        return 'tooltip';
-    }
-
-    getTooltipsForComponent(componentName: string) {
-        return Promise.resolve();
-    }
 }
 
 class MockLocation {
@@ -280,7 +272,7 @@ class MockLocation {
 
 const defaultProviders: Array<any> = [
     FormBuilder,
-    PartsFormBuilderService,
+    FormBuilderService,
     { provide: HttpClient, useClass: MockHttpClient },
     { provide: AuthService, useClass: MockAuthService },
     { provide: DataService, useClass: MockDataService },
@@ -290,12 +282,12 @@ const defaultProviders: Array<any> = [
     { provide: UtilitiesService, useClass: UtilitiesService },
     { provide: ErrorUtilitiesService, useClass: ErrorUtilitiesService },
     { provide: GlobalEventsService, useClass: GlobalEventsService },
-    { provide: PostingService, useClass: MockPostingService },
-    { provide: PartsValidationService, useClass: MockPartsValidationService },
+    { provide: TransactionService, useClass: MockTransactionService },
+    { provide: ValidationService, useClass: MockValidationService },
     { provide: UserSessionService, useClass: MockUserSessionService },
-    { provide: PlanUpdateService, useClass: MockPlanUpdateService },
+    { provide: UpdateService, useClass: MockUpdateService },
     { provide: AuthorizationService, useClass: MockAuthorizationService },
-    { provide: PartsLoggingService, useClass: MockLoggingService },
+    { provide: LoggingService, useClass: MockLoggingService },
     { provide: Location, useClass: MockLocation }
 ];
 

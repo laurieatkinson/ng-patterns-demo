@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { PartsValidationService } from './services/parts-validation.service';
+import { ValidationService } from './services/validation.service';
 import { DisplayErrorPipe } from './pipes/display-error.pipe';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { DisplayErrorPipe } from './pipes/display-error.pipe';
         DisplayErrorPipe
     ],
     providers: [
-        PartsValidationService
+        ValidationService
     ],
     exports: [
         DisplayErrorPipe

@@ -17,14 +17,12 @@ export class ChildComponent3Component extends DemoTransactionComponent {
     child3: IChild3Entity;
     private originalChild3: IChild3Entity;
     formControls: Array<IPartsFormControl> = [
-        { name: 'planYearEndDate' },
-        { name: 'valuationFrequencyPerYear' },
+        { name: 'adminYearEndDate' },
         { name: 'statementYearEndDate' },
+        { name: 'adminFrequencyPerYear' },
         { name: 'statementFrequencyPerYear' },
         { name: 'processingFrequencyPerYear' },
-        { name: 'billingFrequencyPerYear' },
-        { name: 'adminYearEndDate' },
-        { name: 'planGroup' }
+        { name: 'billingFrequencyPerYear' }
     ];
     protected routeParamName = 'child3';
 

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { PostingEntityDataService } from '../../../../demo-common/services/posting-entity-data.service';
+import { TransactionEntityDataService } from '../../../../demo-common/services/transaction-entity-data.service';
 import { IAccount } from '../models/account.models';
 
 @Injectable()
-export class AccountDataService extends PostingEntityDataService {
+export class AccountDataService extends TransactionEntityDataService {
 
     private _currentAccount: IAccount;
     private accountChangedSource = new Subject<void>();

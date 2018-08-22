@@ -17,9 +17,7 @@ export class AuthGuardService implements CanActivate {
     }
 
     protected hasRequiredPermission(actionCode: ActionCode): Promise<boolean> | boolean {
-        if (!AppConfig.settings.aad.requireAuth) {
-            return true;
-        } else if (this.authService.isUserAuthenticated) {
+        if (!AppConfig.settings.aad.requireAuth || this.authService.isUserAuthenticated) {
             if (this.authorizationService.permissions) {
                 if (actionCode) {
                     return this.authorizationService.hasPermission(actionCode);

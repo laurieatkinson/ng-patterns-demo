@@ -2,7 +2,7 @@
 import { WebStorageService } from './web-storage.service';
 import { Injectable } from '@angular/core';
 import 'expose-loader?AuthenticationContext!adal-angular/lib/adal.js';
-import { PartsLoggingService } from '../logging/parts-logging.service';
+import { LoggingService } from '../logging/logging.service';
 import { AppConfig } from '../../app.config';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class AuthService {
     get currentUserLoginName(): string {
         return this.isUserAuthenticated ? (this.currentUser.userName !== '' ? this.currentUser.userName.split('@', 1)[0] : '' ) : '';
     }
-    constructor(private partsLoggingService: PartsLoggingService) {
+    constructor(private loggingService: LoggingService) {
         this.authContext = new AuthenticationContext(this.config);
         this.authenticate();
     }
@@ -49,12 +49,10 @@ export class AuthService {
     }
 
     getAccessToken() {
-        WebStorageService.setLocalStorage('IsRefreshTokenInProgress', 'yes' );
         const p = new Promise<string>((resolve, reject) => {
             this.authContext.acquireToken(AppConfig.settings.aad.clientId, (error, token) => {
-                WebStorageService.setLocalStorage('IsRefreshTokenInProgress', 'no' );
                 if (error || !token) {
-                    this.partsLoggingService.logError(
+                    this.loggingService.logError(
                         'ADAL error occurred in acquireToken: ' + error);
                     reject(error);
                 } else {

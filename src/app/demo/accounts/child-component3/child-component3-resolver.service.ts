@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { MetadataService } from '../../../framework/services/metadata.service';
 import { IChild3Entity } from '../shared/models/child3-entity.models';
 import { Child3DataService } from '../shared/services/child3-data.service';
-import { DemoAccountResolver } from '../shared/services/plan-posting-resolver.service';
+import { DemoAccountResolver } from '../shared/services/demo-account-resolver.service';
 
 @Injectable()
 export class ChildComponent3Resolver extends DemoAccountResolver implements Resolve<IChild3Entity> {

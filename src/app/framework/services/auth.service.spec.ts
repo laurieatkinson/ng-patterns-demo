@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import { PartsLoggingService } from '../logging/parts-logging.service';
+import { LoggingService } from '../logging/logging.service';
 import { MockLoggingService } from '../../demo-common/testing/testing-helpers';
 
 // class MockAuthenticationContext {
@@ -31,7 +31,7 @@ describe('AuthService', () => {
             providers: [
                 TestAuthService,
                 {
-                    provide: PartsLoggingService,
+                    provide: LoggingService,
                     useClass: MockLoggingService
                 }
                 // {
@@ -46,25 +46,25 @@ describe('AuthService', () => {
         expect(service).toBeTruthy();
     }));
 
-    it('should default to unauthenticated', inject([TestAuthService, PartsLoggingService],
-        (service: TestAuthService, partsLoggingService: PartsLoggingService) => {
+    it('should default to unauthenticated', inject([TestAuthService, LoggingService],
+        (service: TestAuthService, loggingService: LoggingService) => {
         expect(service.isUserAuthenticated).toBe(false);
     }));
 
-    it('should default username to empty', inject([TestAuthService, PartsLoggingService],
-        (service: TestAuthService, partsLoggingService: PartsLoggingService) => {
+    it('should default username to empty', inject([TestAuthService, LoggingService],
+        (service: TestAuthService, loggingService: LoggingService) => {
         expect(service.currentUserName).toEqual('');
     }));
 
-    it('can call login', inject([TestAuthService, PartsLoggingService],
-        (service: TestAuthService, partsLoggingService: PartsLoggingService) => {
+    it('can call login', inject([TestAuthService, LoggingService],
+        (service: TestAuthService, loggingService: LoggingService) => {
         spyOn(service, 'logIn');
         service.logIn();
         expect(service.logIn).toHaveBeenCalled();
     }));
 
-    it('can call logout', inject([TestAuthService, PartsLoggingService],
-        (service: TestAuthService, partsLoggingService: PartsLoggingService) => {
+    it('can call logout', inject([TestAuthService, LoggingService],
+        (service: TestAuthService, loggingService: LoggingService) => {
         spyOn(service, 'logOut');
         service.logOut();
         expect(service.logOut).toHaveBeenCalled();

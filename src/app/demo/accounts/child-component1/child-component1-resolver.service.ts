@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { MetadataService } from '../../../framework/services/metadata.service';
-import { DemoAccountResolver } from '../shared/services/plan-posting-resolver.service';
+import { DemoAccountResolver } from '../shared/services/demo-account-resolver.service';
 import { GlobalEventsService } from '../../../framework/services/global-events.service';
 import { Child1DataService } from '../shared/services/child1-data.service';
 import { IChild1Entity } from '../shared/models/child1-entity.models';
@@ -26,8 +26,10 @@ export class ChildComponent1Resolver extends DemoAccountResolver implements Reso
                         .then(list => child1.productCodeList = list);
                     const p3 = this.metadataService.getLookupList('StateCodes')
                         .then(list => child1.stateCodeList = list);
+                    const p4 = this.metadataService.getLookupList('AccountTypes')
+                        .then(list => child1.accountTypeList = list);
 
-                    Promise.all([p1, p2, p3])
+                    Promise.all([p1, p2, p3, p4])
                         .then(() => {
                             resolve(child1);
                         }).catch(error => {

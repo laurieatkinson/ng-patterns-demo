@@ -17,13 +17,13 @@ export class ComponentHeaderComponent {
     @Input() customInvalid = false;
     @Output() toggleEdit = new EventEmitter<boolean>();
     @Output() onSave = new EventEmitter<boolean>();
-    isPlanReadOnly = false;
+    isAccountReadOnly = false;
 
     isEditDisabled(): boolean {
         if (this.disabled) {
             return true;
         } else {
-            return this.isPlanReadOnly;
+            return this.isAccountReadOnly;
         }
     }
 

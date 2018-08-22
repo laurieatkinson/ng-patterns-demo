@@ -1,7 +1,7 @@
 @import '../../../../../../scss/colors';
 @import '../../../../../../scss/mixins';
 
-.plan-header {
+.account-header {
     margin: -35px -15px -35px -15px;
     padding: 1px 15px;
     background: $background;
@@ -11,9 +11,6 @@
     width: 50%;
 }
 .commitPanel {
-    /* position: absolute;
-    top: 20px;
-    right: 15px; */
     position: fixed;
     right: 0px;
     background: $background;
@@ -44,8 +41,6 @@ a:hover, a:hover > i {
 }
 .page-title {
     margin-top: 5px;
-    //white-space: nowrap;
-    //overflow: hidden;
     text-overflow: ellipsis;
     @include font-page-title();
     .mega-menu {
@@ -67,11 +62,6 @@ p {
     width: 100%;
     margin-top:-12px;
     padding-top:5px;
-}
-
-.plan-unlock-link {
-    font-size: 1em;
-    color: red; 
 }
 
 #pn-submit-btn {

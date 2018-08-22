@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 import { IServerError } from '../validation/models/server-error.models';
 import { UtilitiesService } from '../services/utilities.service';
-import { PartsLoggingService } from '../logging/parts-logging.service';
+import { LoggingService } from '../logging/logging.service';
 import { ErrorUtilitiesService } from '../errorhandling/error-utilities.service';
 import { SeverityLevel } from '../logging/severity-level.model';
 import { AppInjector } from '../../app-injector.service';
@@ -19,7 +19,7 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     protected eventSubscriptions: Array<Subscription> = [];
     protected utilitiesService: UtilitiesService;
-    protected partsLoggingService: PartsLoggingService;
+    protected loggingService: LoggingService;
     protected globalEventsService: GlobalEventsService;
     protected errorUtilitiesService: ErrorUtilitiesService;
 
@@ -28,7 +28,7 @@ export class BaseComponent implements OnInit, OnDestroy {
         // so that constructor has no dependencies that need to be passed in from child
         const injector = AppInjector.getInstance().getInjector();
         this.utilitiesService = injector.get(UtilitiesService);
-        this.partsLoggingService = injector.get(PartsLoggingService);
+        this.loggingService = injector.get(LoggingService);
         this.errorUtilitiesService = injector.get(ErrorUtilitiesService);
         this.globalEventsService = injector.get(GlobalEventsService);
         this.logNavigation();
@@ -49,7 +49,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
 
     private logNavigation() {
-        this.partsLoggingService.logPageView();
+        this.loggingService.logPageView();
     }
 
     // These methods are called in the child classes
@@ -58,7 +58,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
 
     protected logError(errorMessage: string) {
-        this.partsLoggingService.logException(new Error(errorMessage),
+        this.loggingService.logException(new Error(errorMessage),
             null, null, null, SeverityLevel.Error);
     }
 

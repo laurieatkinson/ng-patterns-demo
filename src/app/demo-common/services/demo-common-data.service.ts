@@ -3,9 +3,8 @@ import { AppInjector } from '../../app-injector.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserSessionService } from './user-session.service';
-import { PostingService } from './posting.service';
 import { GlobalEventsService } from '../../framework/services/global-events.service';
-import { PartsLoggingService } from '../../framework/logging/parts-logging.service';
+import { LoggingService } from '../../framework/logging/logging.service';
 import { UtilitiesService } from '../../framework/services/utilities.service';
 import { AuthService } from '../../framework/services/auth.service';
 import { DataService } from '../../framework/services/data.service';
@@ -13,7 +12,7 @@ import { DataService } from '../../framework/services/data.service';
 @Injectable()
 export class DemoCommonDataService extends DataService {
 
-    // Add any dependencies that are in parts-common, but not in the framework
+    // Add any dependencies that are in demo-common, but not in the framework
     protected userSessionService: UserSessionService;
 
     constructor() {
@@ -23,11 +22,11 @@ export class DemoCommonDataService extends DataService {
         const http = injector.get(HttpClient);
         const authService = injector.get(AuthService);
         const utilitiesService = injector.get<UtilitiesService>(UtilitiesService);
-        const partsLoggingService = injector.get(PartsLoggingService);
+        const loggingService = injector.get(LoggingService);
         const globalEventsService = injector.get(GlobalEventsService);
         const router = injector.get(Router);
 
-        super(http, authService, utilitiesService, partsLoggingService, globalEventsService, router);
+        super(http, authService, utilitiesService, loggingService, globalEventsService, router);
 
         this.userSessionService = injector.get(UserSessionService);
     }

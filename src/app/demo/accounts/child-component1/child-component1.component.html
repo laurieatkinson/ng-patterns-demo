@@ -1,6 +1,6 @@
 <div class="main-content pad-main-content-on">
     <la-account-header (postChanges)="postChanges()"></la-account-header>
-    <la-plan-header-menu></la-plan-header-menu>
+    <la-header-menu></la-header-menu>
     <div class="row">
         <div class="col-md-12">
             <form [formGroup]="form">
@@ -21,6 +21,7 @@
                                 <div class="col-md-6">
                                     <la-field [label]="'Account Name 3'" [editMode]="editMode" formControlName="name3"></la-field>
                                 </div>
+                                <div class="col-md-6"></div>
                             </div>
 
                             <div class="row">
@@ -36,8 +37,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <la-field [label]="'Account Type'" [editMode]="editMode" formControlName="accountType">
-                                    </la-field>
+                                    <la-list [label]="'Account Type'" [editMode]="editMode" [parentFormGroup]="form" [choices]="child1.accountTypeList" formControlName="accountType"
+                                        [includeEmptyChoice]="false">
+                                    </la-list>
                                 </div>
                                 <div class="col-md-6">
                                     <la-list [label]="'Account Status'" [editMode]="editMode" [parentFormGroup]="form" [choices]="child1.statusCodeList" formControlName="accountStatus"
@@ -81,7 +83,7 @@
 
                 </div>
             </form>
-            <la-posting-confirm-dialog #postingConfirmationDialog></la-posting-confirm-dialog>
+            <la-transaction-confirm-dialog #transactionConfirmationDialog></la-transaction-confirm-dialog>
         </div>
     </div>
 </div>

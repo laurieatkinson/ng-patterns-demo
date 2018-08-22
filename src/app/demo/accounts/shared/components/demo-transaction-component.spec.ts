@@ -3,7 +3,7 @@ import { Validators } from '@angular/forms';
 import { async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { UtilitiesService } from '../../../../framework/services/utilities.service';
-import { IEntity } from '../../../../demo-common/models/postings.models';
+import { IEntity } from '../../../../demo-common/models/transaction.models';
 import { IPartsFormControl } from '../../../../framework/models/form-controls.models';
 
 import { TestInjector } from '../../../../demo-common/testing/testing-helpers';

@@ -1,13 +1,13 @@
 {
-  "name": "partsnext-client",
+  "name": "ng-patterns-demo",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "test": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=Chrome",
-    "test-cc": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=Chrome --cc",
+    "test-cc": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=Chrome --code-coverage",
     "test-headless": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=ChromeHeadless --single-run",
-    "test-coverage": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=ChromeHeadless --single-run --cc",
+    "test-coverage": "node --max-old-space-size=6144 ./node_modules/@angular/cli/bin/ng test --browsers=ChromeHeadless --single-run --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build": "ng build",

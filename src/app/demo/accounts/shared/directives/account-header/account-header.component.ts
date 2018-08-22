@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { UserSessionService } from '../../../../../demo-common/services/user-session.service';
-import { PostingService } from '../../../../../demo-common/services/posting.service';
+import { TransactionService } from '../../../../../demo-common/services/transaction.service';
 import { AccountHeaderService } from './account-header.service';
 import { BaseComponent } from '../../../../../framework/components/base-component';
 import { IServerError } from '../../../../../framework/validation/models/server-error.models';
@@ -16,12 +16,12 @@ export class AccountHeaderComponent extends BaseComponent implements OnInit {
 
     @Output() postChanges: EventEmitter<null> = new EventEmitter();
     errorsFromServer = [];
-    isPlanReadOnly = false;
+    isAccountReadOnly = false;
 
     constructor(private router: Router,
         private route: ActivatedRoute,
         public accountHeaderService: AccountHeaderService,
-        private postingService: PostingService,
+        private transactionService: TransactionService,
         private userSessionService: UserSessionService,
         protected globalEventsService: GlobalEventsService) {
         super();
@@ -69,10 +69,10 @@ export class AccountHeaderComponent extends BaseComponent implements OnInit {
     }
 
     canCommit() {
-        return this.postingService.canCommit();
+        return this.transactionService.canCommit();
     }
 
-    goToPlanHome() {
+    goToAccountHome() {
         this.router.navigate([`${this.accountRouteRoot}`]);
     }
 

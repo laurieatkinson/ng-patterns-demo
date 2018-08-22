@@ -10,14 +10,13 @@ const child3: IChild3Entity = {
   transactionIdentifier: {
     id: 0
   },
-  planYearEndDate: new Date('2017-03-26'),
-  valuationFrequencyPerYear: 365,
+  accountCode: '1',
+  adminYearEndDate: new Date('2017-03-26'),
   statementYearEndDate: new Date('2017-03-26'),
   statementFrequencyPerYear: 365,
   processingFrequencyPerYear: 4,
   billingFrequencyPerYear: 4,
-  adminYearEndDate: new Date('2017-03-25'),
-  planGroup: 'DC',
+  adminFrequencyPerYear: 4,
   timePeriodList: []
 };
 
@@ -62,12 +61,12 @@ describe('ChildComponent3Component', () => {
     component.ngOnInit();
   }));
 
-  it('can save valuation data ', async(() => {
+  it('can save frequency data ', async(() => {
     component.componentLoadingComplete.subscribe(() => {
       component.toggleEditMode(true);
-      component.child3.valuationFrequencyPerYear = 4;
+      component.child3.statementFrequencyPerYear = 4;
       component.save().then(() => {
-        expect(component.child3.valuationFrequencyPerYear).toEqual(4);
+        expect(component.child3.statementFrequencyPerYear).toEqual(4);
       });
     });
     component.ngOnInit();

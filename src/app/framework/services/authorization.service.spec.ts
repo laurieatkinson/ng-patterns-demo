@@ -5,7 +5,7 @@ import { MockAppConfig } from '../../demo-common/testing/testing-helpers';
 
 export class MockAuthorizationDataService {
     getPermissions() {
-        return Promise.resolve(['PLANINQ_VIEW_ONLY', 'PLANINQ_UPDATE_FULL']);
+        return Promise.resolve(['VIEW']);
     }
 }
 
@@ -36,14 +36,14 @@ describe('AuthorizationService', () => {
     it('should authorize if has permission', inject([AuthorizationService],
         (service: AuthorizationService) => {
         service.initializePermissions().then(() => {
-            expect(service.hasPermission('PLANINQ_VIEW_ONLY')).toBe(true);
+            expect(service.hasPermission('VIEW')).toBe(true);
         });
     }));
 
     it('should not authorize if no permission', inject([AuthorizationService],
         (service: AuthorizationService) => {
         service.initializePermissions().then(() => {
-            expect(service.hasPermission('PARTSNEXT_VIEW_ONLY')).toBe(false);
+            expect(service.hasPermission('UPDATE')).toBe(false);
         });
     }));
 });

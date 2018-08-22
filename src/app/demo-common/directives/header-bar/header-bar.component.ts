@@ -1,9 +1,8 @@
-import { AppConfig } from '../../../app.config';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, MenuModule } from 'primeng/primeng';
+import { MenuItem } from 'primeng/primeng';
 import { AuthService } from '../../../framework/services/auth.service';
-import { PartsMenuComponent } from '../../../framework/directives/parts-menu/parts-menu.component';
+import { MenuComponent } from '../../../framework/directives/menu/menu.component';
 
 @Component({
     selector: 'la-header-bar',
@@ -18,7 +17,7 @@ export class HeaderBarComponent {
             command: () => { this.signOut(); }
         }
     ];
-    @ViewChild('userMenu') userMenu: PartsMenuComponent;
+    @ViewChild('userMenu') userMenu: MenuComponent;
 
     constructor(private authService: AuthService, private router: Router) {
     }

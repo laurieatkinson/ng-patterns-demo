@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { UserSessionService } from '../../../../../demo-common/services/user-session.service';
 import { IAccount } from '../../models/account.models';
@@ -29,7 +29,7 @@ describe('AccountHeaderService', () => {
                 resolve(<IAccount>account);
             });
         }
-        userUpdatedPlanName(name: string) {
+        userUpdatedAccountName(name: string) {
         }
     }
 
@@ -59,32 +59,18 @@ describe('AccountHeaderService', () => {
         service.initialize();
     });
 
-    it('can initialize with same account selected', () => {
+    it('can initialize with same account selected', async(() => {
         service.initialize().then((currentAccount) => {
             expect(currentAccount.accountName).toBe(account.accountName);
         }).catch(error => {
             expect(error).toBeNull();
         });
-    });
+    }));
 
-    it('can update account name', () => {
+    it('can update account name', async(() => {
         service.initialize().then((currentAccount) => {
             service.updateAccountName('new name');
             expect(service.accountName).toBe('new name');
-        }).catch(error => {
-            expect(error).toBeNull();
-        });
-    });
-
-    it('can initialize with another account selected',
-        inject([AccountDataService], (accountDataService: AccountDataService) => {
-        spyOn(accountDataService, 'userSelectedAnotherAccount')
-            .and.returnValue(true);
-        spyOn(service, 'accountChanged');
-        service.initialize().then((currentAccount) => {
-            accountDataService.accountChanged.subscribe(() => {
-                expect(service.accountChanged).toHaveBeenCalled();
-            });
         }).catch(error => {
             expect(error).toBeNull();
         });

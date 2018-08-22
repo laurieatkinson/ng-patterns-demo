@@ -1,7 +1,5 @@
-import { async } from '@angular/core/testing';
 import { ComponentHeaderComponent } from './component-header.component';
 import { TestInjector } from '../../testing/testing-helpers';
-import { UserSessionService } from '../../services/user-session.service';
 
 describe('ComponentHeaderComponent', () => {
   let component: ComponentHeaderComponent;
@@ -10,8 +8,7 @@ describe('ComponentHeaderComponent', () => {
   });
 
   beforeEach(() => {
-    component = new ComponentHeaderComponent(
-      TestInjector.getService(UserSessionService));
+    component = new ComponentHeaderComponent();
   });
 
   it('should be created', () => {

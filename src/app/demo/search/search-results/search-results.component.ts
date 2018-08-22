@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../../../framework/components/base-component';
-import { IPartsDataTableColumn } from '../../../framework/directives/parts-data-table/parts-data-table-models';
+import { IDataTableColumn } from '../../../framework/directives/data-table/data-table-models';
 import { IAccountSearchResult } from '../../../demo-common/models/account-search-result.models';
 import { UserSessionService } from '../../../demo-common/services/user-session.service';
 
@@ -14,7 +14,7 @@ export class SearchResultsComponent extends BaseComponent implements OnInit, OnD
 
     searchResultList: Array<IAccountSearchResult> = [];
 
-    searchResultColumns: Array<IPartsDataTableColumn> = [
+    searchResultColumns: Array<IDataTableColumn> = [
         { name: 'accountCode', header: 'Account Code', sortable: true, dataType: 'url', width: '9%',
           link: 'accounts/:accountCode' },
         { name: 'accountName', header: 'Account Name', sortable: true, dataType: 'url', width: '33%',

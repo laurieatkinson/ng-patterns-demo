@@ -16,15 +16,14 @@ export class ChildComponent2Component extends DemoTransactionComponent {
     originalChild2: IChild2Entity;
     protected routeParamName = 'child2';
     formControls: Array<IPartsFormControl> = [
-        { name: 'outsidePlanName' },
-        { name: 'outsidePlanType' },
-        { name: 'outsideContactName' },
+        { name: 'name1' },
+        { name: 'name2' },
+        { name: 'name3' },
+        { name: 'contactName' },
         { name: 'contactPhoneNumber' },
         { name: 'contactPhoneAreaCode' },
-        { name: 'outsidePlanName1' },
-        { name: 'outsidePlanName2' },
-        { name: 'outsidePlanName3' },
-        { name: 'erOverrideContribRate' }
+        { name: 'accountType' },
+        { name: 'rate' }
     ];
 
     constructor(protected route: ActivatedRoute,

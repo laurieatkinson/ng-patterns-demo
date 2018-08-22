@@ -10,76 +10,62 @@ const child1: IChild1Entity = {
     transactionIdentifier: {
         id: 0,
     },
-    asOfDate: new Date(),
     accountCode: 'ABC123',
     name1: 'ABC Account',
     name2: '',
     name3: '',
-    planStatus: 'AC',
-    planType: '',
-    industryCode: 'BFSI',
-    trustID: 'AL-2102',
-    topHeavyCode: '1',
     product: '',
-    trustCustodianRelation: 1,
-    supressSSN: false,
-    nonERISAPlan: false,
-    overridePlanInfo: false,
-    inceptionDate: new Date(),
-    addedDate: new Date(),
-    removedDate: null,
-    lastAmendmentDate: null,
-    repaperedDate: new Date(),
+    accountStatus: 'Active',
+    accountType: '',
     addressLine1: '690 Canton Street',
     addressLine2: '',
     addressLine3: '',
     city: 'Westwood',
     state: 'MA',
     zip: '02090',
-    country: '',
-    planStatusCodeList: [],
-    topHeavyCodeList: [],
-    ProductCodeList: [],
-    PlanRelationshipCodeList: [],
-    industryCodeList: [],
-    stateCodeList: []
+    startDate: new Date('04/22/1999'),
+    lastModifiedDate: new Date('04/22/1999'),
+    statusCodeList: [],
+    productCodeList: [],
+    stateCodeList: [],
+    accountTypeList: []
 };
 
-class MockSearchService {
-    planUpdated(plan: IChild1Entity) { }
-}
+// class MockSearchService {
+//     accountUpdated(entity: IChild1Entity) { }
+// }
 
 class MockActivatedRoute extends ActivatedRoute {
     data = Observable.of({
-        plan: UtilitiesService.cloneDeep(child1)
+        child1: UtilitiesService.cloneDeep(child1)
     });
 }
 
-const mockBasicInfoDataService = jasmine.createSpyObj(
-    'BasicInfoDataService', ['getPlan']);
+const mockChild1DataService = jasmine.createSpyObj(
+    'Child1DataService', ['getChild1']);
 
-mockBasicInfoDataService.getPlan.and.returnValue(
+    mockChild1DataService.getChild1.and.returnValue(
     new Promise<IChild1Entity>((resolve) => {
     resolve(child1);
 }));
 
 const mockSearchService = jasmine.createSpyObj(
-    'BasicInfoDataService', ['planUpdated']);
+    'SearchDataService', ['accountUpdated']);
 
-mockSearchService.planUpdated.and.returnValue(
+mockSearchService.accountUpdated.and.returnValue(
     new Promise<void>((resolve) => {
         resolve();
 }));
 
-const mockPlanHeaderService = jasmine.createSpyObj(
-    'PlanHeaderService', ['updatePlanName']);
+const mockAccountHeaderService = jasmine.createSpyObj(
+    'AccountHeaderService', ['updateAccountName']);
 
-class MockPlanHeaderService {
-    updatePlanName(name1: string, name2: string, name3: string): void {
-    }
-}
+// class MockAccountHeaderService {
+//     updateAccountName(name: string): void {
+//     }
+// }
 
-describe('PlanBasicInfoComponent', () => {
+describe('ChildComponent1Component', () => {
     let component: ChildComponent1Component;
     beforeAll(() => {
         TestInjector.setInjector();
@@ -88,8 +74,8 @@ describe('PlanBasicInfoComponent', () => {
     beforeEach(() => {
         component = new ChildComponent1Component(
             new MockActivatedRoute(), mockSearchService,
-            mockPlanHeaderService,
-            mockBasicInfoDataService);
+            mockAccountHeaderService,
+            mockChild1DataService);
     });
     it('should be created', async(() => {
         component.componentLoadingComplete.subscribe(() => {

@@ -26,7 +26,7 @@ export class SearchService {
             return p.accountCode === child1.accountCode;
         });
 
-        // If found, update the plan name if that was changed
+        // If found, update the name if that was changed
         if (index !== -1) {
             accountList[index].accountName = child1.name1;
         }

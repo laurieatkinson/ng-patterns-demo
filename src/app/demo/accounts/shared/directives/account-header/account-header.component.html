@@ -1,5 +1,5 @@
 <div class="fixed-top">
-    <div class="plan-header">
+    <div class="account-header">
         <div class="row">
             <div class="col-md-12">
                 <div class="commitPanel pull-right">
@@ -12,7 +12,7 @@
                     <div *ngIf="!accountHeaderService.accountCode" style="display: inline-block">
                         <la-error-message [errorList]="errorsFromServer"></la-error-message>
                     </div>
-                    <a (click)="goToPlanHome()">
+                    <a (click)="goToAccountHome()">
                         {{topHeader}}
                         <span *ngIf="accountHeaderService.accountType"> - {{accountHeaderService.accountType}}</span>
                         <span *ngIf="accountHeaderService.accountStatus"> ({{accountHeaderService.accountStatus}})</span>

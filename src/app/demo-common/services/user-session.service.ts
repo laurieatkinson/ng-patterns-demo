@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { UtilitiesService } from '../../framework/services/utilities.service';
-import { IAccountTransactionObject, ITransactionIdentifier } from '../models/postings.models';
+import { IAccountTransactionObject, ITransactionIdentifier } from '../models/transaction.models';
 import { INavigationError } from '../../framework/validation/models/server-error.models';
 
 @Injectable()
@@ -14,14 +14,14 @@ export class UserSessionService {
     accountCodeChanged = this.accountCodeChangedSource.asObservable();
 
     transactionIdentifier: ITransactionIdentifier;
-    postingObject: IAccountTransactionObject;
+    transactionObject: IAccountTransactionObject;
     navigationError: INavigationError;
 
     constructor(private utilitiesService: UtilitiesService) {
         this._accountCode = '';
         this._accountType = '';
         this.transactionIdentifier = null;
-        this.postingObject = null;
+        this.transactionObject = null;
     }
 
     get accountCode() {
@@ -32,13 +32,13 @@ export class UserSessionService {
         // If account changes, clear the transaction context
         value = value ? value.toLowerCase() : '';
         if (this._accountCode !== value) {
-            this.postingObject = null;
+            this.transactionObject = null;
         }
         this._accountCode = value;
         this.accountCodeChangedSource.next();
     }
 
-    get planType() {
+    get accountType() {
         return this._accountType;
     }
 

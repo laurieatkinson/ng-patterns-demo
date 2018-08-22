@@ -1,4 +1,4 @@
-import { IEntity } from '../../../../demo-common/models/postings.models';
+import { IEntity } from '../../../../demo-common/models/transaction.models';
 
 export interface IAccount extends IEntity {
     accountCode: string;

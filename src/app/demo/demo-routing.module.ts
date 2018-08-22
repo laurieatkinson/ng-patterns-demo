@@ -10,6 +10,7 @@ import { ChildComponent1Component } from './accounts/child-component1/child-comp
 import { ChildComponent2Component } from './accounts/child-component2/child-component2.component';
 import { ChildComponent2Resolver } from './accounts/child-component2/child-component2-resolver.service';
 import { ChildComponent3Resolver } from './accounts/child-component3/child-component3-resolver.service';
+import { ChildComponent3Component } from './accounts/child-component3/child-component3.component';
 
 const routes: Routes = [
     {
@@ -33,21 +34,26 @@ const routes: Routes = [
                     },
                     {
                         path: ':code',
-                        component: ChildComponent1Component,
-                        resolve: { child1: ChildComponent1Resolver },
-                        canDeactivate: [CanDeactivateGuardService]
-                    },
-                    {
-                        path: ':code/child2',
-                        component: ChildComponent2Component,
-                        resolve: { child2: ChildComponent2Resolver },
-                        canDeactivate: [CanDeactivateGuardService]
-                    },
-                    {
-                        path: ':code/child3',
-                        component: ChildComponent2Component,
-                        resolve: { child3: ChildComponent3Resolver },
-                        canDeactivate: [CanDeactivateGuardService]
+                        children: [
+                            {
+                                path: '',
+                                component: ChildComponent1Component,
+                                resolve: { child1: ChildComponent1Resolver },
+                                canDeactivate: [CanDeactivateGuardService]
+                            },
+                            {
+                                path: 'child2',
+                                component: ChildComponent2Component,
+                                resolve: { child2: ChildComponent2Resolver },
+                                canDeactivate: [CanDeactivateGuardService]
+                            },
+                            {
+                                path: 'child3',
+                                component: ChildComponent3Component,
+                                resolve: { child3: ChildComponent3Resolver },
+                                canDeactivate: [CanDeactivateGuardService]
+                            }
+                        ]
                     }
                 ]
             }

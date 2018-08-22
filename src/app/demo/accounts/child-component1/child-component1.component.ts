@@ -7,7 +7,7 @@ import { IChild1Entity } from '../shared/models/child1-entity.models';
 import { Child1DataService } from '../shared/services/child1-data.service';
 
 @Component({
-    selector: 'la-plan-basic-info',
+    selector: 'la-child1',
     templateUrl: './child-component1.component.html',
     styleUrls: ['./child-component1.component.scss']
 })

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { DemoAccountResolver } from '../shared/services/plan-posting-resolver.service';
+import { DemoAccountResolver } from '../shared/services/demo-account-resolver.service';
 import { MetadataService } from '../../../framework/services/metadata.service';
 import { Child2DataService } from '../shared/services/child2-data.service';
 import { IChild2Entity } from '../shared/models/child2-entity.models';
@@ -19,9 +19,9 @@ export class ChildComponent2Resolver extends DemoAccountResolver implements Reso
         const promise = new Promise<IChild2Entity>((resolve, reject) => {
             this.child2DataService.getChild2()
                 .then(child2 => {
-                    const p1 = this.metadataService.getLookupList('AccountType')
+                    const p1 = this.metadataService.getLookupList('AccountTypes')
                         .then(list => {
-                            child2.AccountTypeList = list;
+                            child2.accountTypeList = list;
                         });
                         Promise.all([p1])
                             .then(() => {

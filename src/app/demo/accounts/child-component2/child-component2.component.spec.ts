@@ -6,24 +6,21 @@ import { ChildComponent2Component } from './child-component2.component';
 import { IChild2Entity } from '../shared/models/child2-entity.models';
 
 const child2: IChild2Entity = {
-    accountCode: 'CF0102',
     transactionIdentifier: null,
-    asOfDate: new Date(2017, 7, 15),
-    outsidePlanName: 'Plan Name',
-    outsidePlanType: 'Plan Type',
-    outsideContactName: 'Contact Name',
+    name1: 'Account Name',
+    name2: '',
+    name3: '',
+    accountType: 'Account Type',
+    contactName: 'Contact Name',
     contactPhoneNumber: '123-1234',
     contactPhoneAreaCode: '303',
-    outsidePlanName1: '',
-    outsidePlanName2: '',
-    outsidePlanName3: '',
-    erOverrideContribRate: null,
-    AccountTypeList: [],
+    rate: null,
+    accountTypeList: []
 };
 
 class MockActivatedRoute extends ActivatedRoute {
     data = Observable.of({
-      outsidePlan: child2
+      child2: child2
     });
 }
 
@@ -65,9 +62,9 @@ describe('ChildComponent2Component', () => {
   it('should save the results', async(() => {
       component.componentLoadingComplete.subscribe(() => {
         component.toggleEditMode(true);
-        component.form.get('outsideContactName').setValue('John Doe');
+        component.form.get('contactName').setValue('John Doe');
         component.save().then(() => {
-            expect(component.child2.outsideContactName).toBe('John Doe');
+            expect(component.child2.contactName).toBe('John Doe');
         });
       });
       component.ngOnInit();
@@ -83,7 +80,7 @@ describe('ChildComponent2Component', () => {
   it('should set hasChanged to true if value is changed', async(() => {
     component.componentLoadingComplete.subscribe(() => {
       component.editMode = true;
-      component.child2.erOverrideContribRate = 50;
+      component.child2.rate = 50;
       expect(component.hasChanged()).toBe(true);
     });
     component.ngOnInit();

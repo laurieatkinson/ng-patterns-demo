@@ -46,7 +46,7 @@
     font-weight: bold;
 }
 
-@mixin link-plan-tile() {
+@mixin link-account-tile() {
     color: $link-blue !important;
     font-size: 1em;
     font-family: Tahoma, Helvetica, Arial, sans-serif !important;
@@ -109,8 +109,8 @@
     }
 }
 
-@mixin plan-header-buttons() {
-    .plan-header-buttons {
+@mixin account-header-buttons() {
+    .account-header-buttons {
         float:right;
         margin-top:-73px;
         font-weight: 600;
@@ -155,7 +155,6 @@
 }
 
 @mixin label() {
-    
     padding: 4px 20px;
     color: white;
     text-align: left;
@@ -164,12 +163,8 @@
     line-height: 1.42857143;
     margin-bottom: 0px;
     font-size: x-small !important;
-
-    /* width: 50%; */
-    /* background-color: #004d72; */
     background: linear-gradient($main-blue, $nav-blue);
     border-radius: 0;
-    
 }
 
 @mixin overview() {
@@ -224,12 +219,12 @@
     }
 }
 
-@mixin plan-section-header-button() {
+@mixin account-section-header-button() {
     .no-margin {
         margin: 0 !important;
     }
 
-    span.plan-section-header-link {
+    span.account-section-header-link {
         float: right;
         margin-top: -2em;
 
@@ -252,7 +247,6 @@
         a.disabled {
             color: gray;
             cursor: not-allowed;
-            //text-decoration: underline;
 
             .fa {
                 color: gray;
@@ -263,7 +257,6 @@
             }
         }
     }
-    
 }
 
 @mixin input-addon() {

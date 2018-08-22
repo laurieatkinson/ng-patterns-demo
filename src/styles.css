@@ -5,11 +5,7 @@ html {
 body {
     position: relative;
     min-height: 100%;
-    /* min-width: 992px;
-    width: auto !important; 
-    width: 992px;  */
     padding-bottom: 50px;
-    /* background: #eee; */
     background: #fff;
     font-family: Tahoma, Helvetica, Arial, sans-serif;
 }
@@ -92,9 +88,7 @@ a .fa-arrow-left {
 }
 button.btn, input[type='button'].btn {
     font-family: Helvetica, Tahoma, Arial, sans-serif;
-    /*padding: 15px 18px;*/
     font-weight: 600;
-    /*min-width: 100px;*/
     padding: 15px 18px 15px 18px;
     border-color: #999;
     Background: linear-gradient(
@@ -102,9 +96,6 @@ button.btn, input[type='button'].btn {
     border-radius: 4px;
 
 }
-/*button.btn-primary, input[type='button'].btn-primary {
-    background: linear-gradient(#fabc6d, #f6992e)
-}*/
 button.btn-default, input[type='button'].btn-default {
     color: #007bc2;
     background: linear-gradient(#fff, #ececec)
@@ -124,15 +115,11 @@ hr {
 }
 .white-bg {
     background: #fff;
-    
     padding: 70px;
-    /* min-height: 60vh; */
 }
 white-bg {
     background: #fff;
-   
     padding-top: 5px;
-    /* min-height: 60vh; */
 }
 .white-bg h2:first-child, .white-bg .h2:first-child {
     margin-top: 0 !important;
@@ -147,30 +134,6 @@ white-bg {
 .border-right {
     border-right: 1px solid #e5e5e5;
 }
-
-/* Styles used by ng2-bootstrap Sortable */
-.sortable-item {
-    padding: 6px 12px;
-    margin-bottom: 4px;
-    font-size: 1em;
-    line-height: 1.4em;
-    text-align: center;
-    cursor: grab;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    border-color: #adadad;
-}
-
-.sortable-item-active {
-    background-color: #e6e6e6;
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-}
-
-.sortable-wrapper {
-    min-height: 150px;
-}
-/* -- end sortable -- */
-
 /* -- Sidebar -- */
 .right h3, .right .h3, .left h3, left .h3 {
     text-transform: uppercase;
@@ -201,12 +164,6 @@ white-bg {
 #main-content {
     padding-left: 0;    
 }
-/* .ui-datatable-scrollable-header-box{
-    margin-right: 17px!important;
-}
-
-div.ui-datatable-scrollable-body {
-    overflow-y: scroll; */
 .hide-overflow,
 .ui-datatable-resizable {
     overflow: unset !important;
@@ -336,7 +293,6 @@ input[type="checkbox"]:checked:focus + span:before,
 input[type="checkbox"]:not(:checked):focus + span:before {
   border: 1px dotted #007bc2;
 }
-
 
 .fa-text-danger {
     color:#d51923 !important;
