@@ -1,6 +1,6 @@
 {
     "env": {
-        "name": "DEV"
+        "name": "PROD"
     },
     "appInsights": {
         "instrumentationKey": "644613ea-e78b-476a-8a11-325557d77f47"

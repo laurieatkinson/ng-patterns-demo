@@ -38,6 +38,14 @@
                   "with": "src/environments/environment.deploy.ts"
                 }
               ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             }
           }
         },
@@ -47,9 +55,6 @@
             "browserTarget": "demo-inheritance:build"
           },
           "configurations": {
-            "test": {
-              "browserTarget": "demo-inheritance:build:test"
-            },
             "prod": {
               "browserTarget": "demo-inheritance:build:prod"
             },
