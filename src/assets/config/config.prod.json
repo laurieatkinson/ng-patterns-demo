@@ -3,11 +3,11 @@
         "name": "DEV"
     },
     "appInsights": {
-        "instrumentationKey": "<your-key-here>"
+        "instrumentationKey": "644613ea-e78b-476a-8a11-325557d77f47"
     },
     "logging": {
         "console": true,
-        "appInsights": false,
+        "appInsights": true,
         "traceEnabled": false
     },
     "aad": {

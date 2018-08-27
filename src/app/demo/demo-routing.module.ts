@@ -15,10 +15,10 @@ import { ChildComponent3Component } from './accounts/child-component3/child-comp
 const routes: Routes = [
     {
         path: 'accounts',
-        canActivate: [AuthGuardService],
         children: [
             {
                 path: '',
+                canActivate: [AuthGuardService],
                 data: { actionCode: 'VIEW' },
                 children: [
                     {
