@@ -3,7 +3,7 @@
         "name": "PROD"
     },
     "appInsights": {
-        "instrumentationKey": "644613ea-e78b-476a-8a11-325557d77f47"
+        "instrumentationKey": "<your-key-here>"
     },
     "logging": {
         "console": true,
@@ -13,7 +13,7 @@
     "aad": {
         "requireAuth": true,
         "tenant": "microsoft.onmicrosoft.com",
-        "clientId": "1d99e069-853e-4097-8485-142393b876db"
+        "clientId": "<your-guid-here>"
     },
     "apiServer": {
         "metadata": "https://ng-demo-metadata.azurewebsites.net/api/",
