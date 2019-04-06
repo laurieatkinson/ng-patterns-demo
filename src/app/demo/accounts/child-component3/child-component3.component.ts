@@ -39,11 +39,11 @@ export class ChildComponent3Component extends DemoTransactionComponent {
         this.originalChild3 = value;
     }
 
-    protected get postingEntity() {
+    protected get entity() {
         return this.child3;
     }
 
-    protected set postingEntity(value: IChild3Entity) {
+    protected set entity(value: IChild3Entity) {
         this.child3 = value;
     }
 

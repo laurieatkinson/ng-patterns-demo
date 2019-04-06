@@ -1,0 +1,23 @@
+{
+    "env": {
+        "name": "LOCAL"
+    },
+    "appInsights": {
+        "instrumentationKey": "<your-key-here>"
+    },
+    "logging": {
+        "console": true,
+        "appInsights": false,
+        "traceEnabled": false
+    },
+    "aad": {
+        "requireAuth": false,
+        "tenant": "",
+        "clientId": ""
+    },
+    "apiServer": {
+        "metadata": "http://localhost:56787/api/",
+        "rules": "http://localhost:54084/api/",
+        "transaction": "http://localhost:60101/api/"
+    }
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../framework/services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'la-log-out',
@@ -10,12 +10,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class LogOutComponent implements OnInit {
 
   constructor(private authService: AuthService,
-    private router: Router,
     protected route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    // check if posting object has unsaved changes
     this.logout();
   }
 

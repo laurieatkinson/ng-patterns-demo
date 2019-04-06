@@ -55,11 +55,11 @@ class TestDemoTransactionComponent extends DemoTransactionComponent {
         this.testOriginal = value;
     }
 
-    get postingEntity() {
+    get entity() {
         return this.testEntity;
     }
 
-    set postingEntity(value: ITestEntity) {
+    set entity(value: ITestEntity) {
         this.testEntity = value;
     }
 
@@ -95,16 +95,16 @@ describe('DemoTransactionComponent', () => {
         component.ngOnInit();
     }));
 
-    it('initializes postingEntity to data passed from route', async(() => {
+    it('initializes entity to data passed from route', async(() => {
         component.componentLoadingComplete.subscribe(() => {
-            expect(component.postingEntity.field1).toBe('test');
+            expect(component.entity.field1).toBe('test');
         });
         component.ngOnInit();
     }));
 
-    it('initializes original version of postingEntity', async(() => {
+    it('initializes original version of entity', async(() => {
         component.componentLoadingComplete.subscribe(() => {
-            component.postingEntity.field2 = {
+            component.entity.field2 = {
                 subField1: 'CHANGE'
             };
             expect(component.original.field2.subField1).toBe('sub1');
@@ -122,7 +122,7 @@ describe('DemoTransactionComponent', () => {
     it('should set hasChanged to true if a field is changed', async(() => {
         component.componentLoadingComplete.subscribe(() => {
             component.editMode = true;
-            component.postingEntity.field1 = 'CHANGE';
+            component.entity.field1 = 'CHANGE';
             const result = component.hasChanged();
             expect(result).toBe(true);
         });
@@ -132,8 +132,8 @@ describe('DemoTransactionComponent', () => {
     it('should set hasChanged back to false if a field is changed back', async(() => {
         component.componentLoadingComplete.subscribe(() => {
             component.editMode = true;
-            component.postingEntity.field1 = 'CHANGE';
-            component.postingEntity.field1 = 'test';
+            component.entity.field1 = 'CHANGE';
+            component.entity.field1 = 'test';
             expect(component.hasChanged()).toBe(false);
         });
         component.ngOnInit();
@@ -150,9 +150,9 @@ describe('DemoTransactionComponent', () => {
     it('toggling edit mode to false resets to original', async(() => {
         component.componentLoadingComplete.subscribe(() => {
             component.toggleEditMode(true);
-            component.postingEntity.field1 = 'after';
+            component.entity.field1 = 'after';
             component.toggleEditMode(false);
-            expect(component.postingEntity.field1).toBe('test');
+            expect(component.entity.field1).toBe('test');
         });
         component.ngOnInit();
     }));

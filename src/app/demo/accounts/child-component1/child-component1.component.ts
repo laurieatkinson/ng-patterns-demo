@@ -49,7 +49,7 @@ export class ChildComponent1Component extends DemoTransactionComponent {
         this.originalChild1 = value;
     }
 
-    protected get postingEntity() {
+    protected get entity() {
         return this.child1;
     }
 
@@ -65,7 +65,7 @@ export class ChildComponent1Component extends DemoTransactionComponent {
         this.searchService.accountUpdated(this.child1);
     }
 
-    protected set postingEntity(value: IChild1Entity) {
+    protected set entity(value: IChild1Entity) {
         value.state = value.state.toUpperCase();
         this.child1 = value;
     }

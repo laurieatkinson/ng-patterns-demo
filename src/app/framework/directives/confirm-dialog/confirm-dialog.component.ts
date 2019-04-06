@@ -1,5 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { ConfirmChoice } from '../../models/confirm-choices.enum';
 
 @Component({
@@ -15,20 +14,19 @@ export class ConfirmDialogComponent {
     @Input() okButtonText = 'Save';
     @Input() cancelButtonText = 'Cancel';
     @Input() allowSave = true;
-    protected confirmedSource = new Subject<ConfirmChoice.save | ConfirmChoice.cancel | number>();
-    confirmed = this.confirmedSource.asObservable();
+    @Output() confirmed: EventEmitter<ConfirmChoice.save | ConfirmChoice.cancel | number> = new EventEmitter();
 
     show() {
         this.display = true;
     }
     save() {
         this.display = false;
-        this.confirmedSource.next(ConfirmChoice.save);
+        this.confirmed.emit(ConfirmChoice.save);
     }
     cancel() {
         if (this.display) {
             this.display = false;
-            this.confirmedSource.next(ConfirmChoice.cancel);
+            this.confirmed.emit(ConfirmChoice.cancel);
         }
     }
 }

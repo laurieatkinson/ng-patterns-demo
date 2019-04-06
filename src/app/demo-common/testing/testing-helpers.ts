@@ -49,7 +49,7 @@ export class MockTransactionService {
     currentPostId1 = '';
     private transactionCommittedSource = new Subject<string>();
     transactionCommitted = this.transactionCommittedSource.asObservable();
-    commitPosting() {
+    commitTransaction() {
         return new Promise<string>((resolve) => {
             this.currentPostId1 = '';
             this.transactionCommittedSource.next();

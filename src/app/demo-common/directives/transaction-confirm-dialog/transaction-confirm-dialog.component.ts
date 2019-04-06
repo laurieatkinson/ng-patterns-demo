@@ -1,5 +1,4 @@
-import { Component, ViewEncapsulation, Input } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
 import { ConfirmDialogComponent } from '../../../framework/directives/confirm-dialog/confirm-dialog.component';
 import { ConfirmChoice } from '../../../framework/models/confirm-choices.enum';
 
@@ -13,8 +12,7 @@ export class TransactionConfirmDialogComponent extends ConfirmDialogComponent {
     description = '';
     @Input() confirm = false;
     @Input() allowDiscard = true;
-    protected confirmedSource =
-        new Subject<ConfirmChoice.save | ConfirmChoice.cancel | ConfirmChoice.discard>();
+    @Output() confirmed: EventEmitter<ConfirmChoice.save | ConfirmChoice.cancel | ConfirmChoice.discard> = new EventEmitter();
 
     saveButtonText() {
         if (this.allowSave && this.confirm) {
@@ -29,6 +27,6 @@ export class TransactionConfirmDialogComponent extends ConfirmDialogComponent {
 
     discard() {
         this.display = false;
-        this.confirmedSource.next(ConfirmChoice.discard);
+        this.confirmed.emit(ConfirmChoice.discard);
     }
 }

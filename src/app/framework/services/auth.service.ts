@@ -31,8 +31,10 @@ export class AuthService {
         return this.isUserAuthenticated ? (this.currentUser.userName !== '' ? this.currentUser.userName.split('@', 1)[0] : '' ) : '';
     }
     constructor(private loggingService: LoggingService) {
-        this.authContext = new AuthenticationContext(this.config);
-        this.authenticate();
+        if (AppConfig.settings.aad.requireAuth) {
+            this.authContext = new AuthenticationContext(this.config);
+            this.authenticate();
+        }
     }
 
     authenticate() {

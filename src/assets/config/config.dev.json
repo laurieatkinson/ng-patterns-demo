@@ -11,9 +11,9 @@
         "traceEnabled": false
     },
     "aad": {
-        "requireAuth": true,
+        "requireAuth": false,
         "tenant": "microsoft.onmicrosoft.com",
-        "clientId": "1d99e069-853e-4097-8485-142393b876db"
+        "clientId": "<your-guid-here>"
     },
     "apiServer": {
         "metadata": "https://ng-demo-metadata.azurewebsites.net/api/",

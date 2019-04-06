@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo-inheritance": {
+    "ng-patterns-demo": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -52,21 +52,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo-inheritance:build"
+            "browserTarget": "ng-patterns-demo:build"
           },
           "configurations": {
             "prod": {
-              "browserTarget": "demo-inheritance:build:prod"
+              "browserTarget": "ng-patterns-demo:build:prod"
             },
             "deploy": {
-              "browserTarget": "demo-inheritance:build:deploy"
+              "browserTarget": "ng-patterns-demo:build:deploy"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo-inheritance:build"
+            "browserTarget": "ng-patterns-demo:build"
           }
         },
         "test": {
@@ -103,7 +103,7 @@
         }
       }
     },
-    "demo-inheritance-e2e": {
+    "ng-patterns-demo-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -112,7 +112,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "demo-inheritance:serve"
+            "devServerTarget": "ng-patterns-demo:serve"
           }
         },
         "lint": {
@@ -127,7 +127,7 @@
       }
     }
   },
-  "defaultProject": "demo-inheritance",
+  "defaultProject": "ng-patterns-demo",
   "schematics": {
     "@schematics/angular:component": {
       "inlineTemplate": false,

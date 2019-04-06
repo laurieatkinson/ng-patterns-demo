@@ -31,14 +31,7 @@ export class TransactionService {
                 this.transactionDataService.commitTransaction(this.currentTransactionId(), description)
                     .then((transactionId) => {
                         this.clearTransaction();
-                        this.userSessionService.transactionObject = null;
-                        this.getTransactionObject().then(() => {
-                            resolve(transactionId);
-                            this.transactionCommittedSource.next(transactionId);
-                        })
-                        .catch((reason) => {
-                            reject(reason);
-                        });
+                        resolve(transactionId);
                     })
                     .catch((reason) => {
                         reject(reason);
@@ -82,26 +75,6 @@ export class TransactionService {
 
     clearTransaction() {
         this.userSessionService.transactionIdentifier = null;
-    }
-
-    getTransactionObject() {
-        const promise = new Promise<IAccountTransactionObject>((resolve, reject) => {
-            const postObject = this.userSessionService.transactionObject;
-            if (!postObject) {
-                this.transactionDataService.getTransactionObject()
-                .then(transactionObject => {
-                    this.userSessionService.transactionObject = transactionObject;
-                    this.transactionObjectUpdatedSource.next(this.userSessionService.transactionObject);
-                    resolve(this.userSessionService.transactionObject);
-                })
-                .catch((error: IServerError) => {
-                    reject(error);
-                });
-            } else {
-                resolve(postObject);
-            }
-        });
-        return promise;
     }
 
     getTransactionIdentifier() {

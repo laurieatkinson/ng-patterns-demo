@@ -34,7 +34,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     protected routeParamName: string;
     protected additionalRouteParamName: string;
     protected formControls: IPartsFormControl | Array<IPartsFormControl>;
-    protected postingEntity: IEntity;
+    protected entity: IEntity;
     protected original: IEntity;
     protected formBuilder: FormBuilder;
     protected router: Router;
@@ -52,7 +52,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     private initializingEntity = false;
     private currentValidators: Array<ICurrentControlValidators> = [];
 
-    @ViewChild('transactionConfirmationDialog') confirmationDialog: TransactionConfirmDialogComponent;
+    @ViewChild(TransactionConfirmDialogComponent) confirmationDialog: TransactionConfirmDialogComponent;
     @ViewChild(AccountHeaderComponent) private accountHeaderComponent: AccountHeaderComponent;
 
     constructor(protected route: ActivatedRoute) {
@@ -72,15 +72,19 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     ngOnInit() {
         super.ngOnInit();
 
-        this.subscribeToPostingCommitted();
+        this.subscribeToTransactionCommitted();
 
         if (this.routeParamName && this.route) {
             this.eventSubscriptions.push(this.route.data
                 .subscribe(data => {
                     if (!this.initializingEntity) {
                         this.editMode = false;
-                        this.setFormPropertiesFromRouteData(data[this.routeParamName]);
-
+                        if (!data[this.routeParamName] && this.route.parent && this.route.parent.snapshot &&
+                            this.route.parent.snapshot.data[this.routeParamName]) {
+                            this.setFormPropertiesFromRouteData(this.route.parent.snapshot.data[this.routeParamName]);
+                        } else {
+                            this.setFormPropertiesFromRouteData(data[this.routeParamName]);
+                        }
                         // If there is no form created yet, build it
                         if (!this.form) {
                             this.initializingEntity = true;
@@ -90,8 +94,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                             });
                         } else {
                             // If the form already exists, update it
-                            this.patchValue(this.postingEntity, this.form, { onlySelf: true });
-                            this.original = UtilitiesService.cloneDeep(this.postingEntity);
+                            this.patchValue(this.entity, this.form, { onlySelf: true });
+                            this.original = UtilitiesService.cloneDeep(this.entity);
                             this.componentLoaded();
                             this.setOnInitComplete();
                         }
@@ -115,15 +119,15 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     }
 
     setFormPropertiesFromRouteData(data: any) {
-        this.postingEntity = data;
+        this.entity = data;
     }
 
-    subscribeToPostingCommitted() {
-        // The posting can be committed from any component, so let the child component
+    subscribeToTransactionCommitted() {
+        // The transaction can be committed from any component, so let the child component
         // update itself by implementing commitComplete()
         if (this.transactionService.transactionCommitted) {
             this.eventSubscriptions.push(this.transactionService.transactionCommitted.subscribe(
-                (postId) => {
+                (transactionId) => {
                     this.commitComplete();
                 }));
         }
@@ -149,7 +153,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         const hasChanged = this.hasChanged();
 
         // If navigating to a different account, these changes must be committed
-        // if a posting has been created due to a previous change
+        // if a transaction has been created due to a previous change
         if (this.navigatingAwayFromParent(nextState) &&
             ((hasChanged && this.allowSaveOnExit) || this.transactionService.currentTransactionNotCommitted())) {
             commitNeeded = true;
@@ -195,13 +199,14 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         // and return its promise which resolves to true or false when the user decides
         return new Promise<ConfirmChoice>((resolve) => {
             if (commitButtonClicked) {
-                this.confirmationDialog.title = 'Enter posting information.';
+                this.confirmationDialog.title = 'Enter transaction information.';
             }
             this.confirmationDialog.message = warningMessage;
             this.confirmationDialog.allowDiscard = true;
             this.confirmationDialog.allowSave = this.allowSaveOnExit && saveNeeded;
             this.confirmationDialog.confirm = commitNeeded;
             this.confirmationDialog.description = '';
+            this.confirmationDialog.show();
             this.confirmedSubscription = this.confirmationDialog.confirmed.subscribe((choice: ConfirmChoice) => {
                 // Immediately unsubscribe since we resubscribe everytime the dialog is shown again
                 this.confirmedSubscription.unsubscribe();
@@ -222,18 +227,11 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                                     this.transactionService.commitTransaction(description).then(() => {
                                         this.commitComplete();
                                         return resolve(choice);
-                                    }) // Unable to navigate away due an error committing posting
+                                    }) // Unable to navigate away due an error committing transaction
                                         .catch((error: IServerError) => {
-                                            if (error.message && error.message.indexOf('synchronization is still in progress') !== -1) {
-                                                this.userSessionService.clearAccount();
-                                                this.transactionService.clearTransaction();
-                                                this.routeToSearchResultsWithError(error);
-                                                return resolve(ConfirmChoice.cancel);
-                                            } else {
-                                                this.errorsFromServer = this.populateErrors(error, this.getFormGroupToValidate());
-                                                this.setBackIfNotDeactivated();
-                                                return resolve(ConfirmChoice.cancel);
-                                            }
+                                            this.errorsFromServer = this.populateErrors(error, this.getFormGroupToValidate());
+                                            this.setBackIfNotDeactivated();
+                                            return resolve(ConfirmChoice.cancel);
                                         });
                                 } else {
                                     return resolve(choice);
@@ -279,7 +277,6 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
             }, (err) => {
                 this.logError(err);
             });
-            this.confirmationDialog.show();
         });
     }
 
@@ -299,8 +296,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
                     this.eventSubscriptions.push(this.form.valueChanges.subscribe(() => {
                         this.updateForm();
                     }));
-                    this.patchPostingEntityIntoForm();
-                    this.original = UtilitiesService.cloneDeep(this.postingEntity);
+                    this.patchEntityIntoForm();
+                    this.original = UtilitiesService.cloneDeep(this.entity);
                     this.additionalFormInitialize();
                     this.componentLoaded();
                     resolve();
@@ -356,14 +353,14 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     }
 
     protected get saveEntity() {
-        return this.postingEntity;
+        return this.entity;
     }
 
     save(alternateDataService?: TransactionEntityDataService, alternateEntity?: IEntity) {
         const dataService = alternateDataService ? alternateDataService : this.dataService;
         let saveEntity = alternateEntity ? alternateEntity : this.saveEntity;
 
-        saveEntity = this.removePartsListChoiceDropdowns(saveEntity);
+        saveEntity = this.removeListChoiceDropdowns(saveEntity);
         const promise = new Promise<void | IServerError>((resolve, reject) => {
             this.errorsFromServer = [];
             if (this.isNew()) {
@@ -402,7 +399,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
 
     saveComplete(updatedEntity?: IEntity) {
         this.editMode = false;
-        this.original = UtilitiesService.cloneDeep(this.postingEntity);
+        this.original = UtilitiesService.cloneDeep(this.entity);
     }
 
     rollbackComplete() {
@@ -425,12 +422,26 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
 
     toggleEditMode(newMode: boolean) {
         this.editMode = newMode;
+
         if (!this.editMode) {
-            this.postingEntity = UtilitiesService.cloneDeep(this.original);
-            this.patchPostingEntityIntoForm();
+            this.entity = UtilitiesService.cloneDeep(this.original);
+            this.patchEntityIntoForm();
             this.errorsFromServer = [];
+
             Object.keys(this.form.controls).forEach(key => {
                 const control = this.form.controls[key];
+
+                if (control instanceof FormGroup) {
+                    Object.keys(control.controls).forEach(key2 => {
+                        const ctrl = control.controls[key2];
+                        if (ctrl.getError('serverValidationError')) {
+                            delete ctrl.errors['serverValidationError'];
+                        }
+                        ctrl.markAsPristine();
+                        ctrl.updateValueAndValidity();
+                    });
+                }
+
                 if (control.getError('serverValidationError')) {
                     delete control.errors['serverValidationError'];
                 }
@@ -444,8 +455,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         return false;
     }
 
-    protected patchPostingEntityIntoForm() {
-        this.copyItemIntoForm(this.form.controls, this.postingEntity);
+    protected patchEntityIntoForm() {
+        this.copyItemIntoForm(this.form.controls, this.entity);
     }
 
     protected updateForm() {
@@ -453,7 +464,16 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         if (this.original && this.editMode && !this.updatingForm) {
             const updatedForm = UtilitiesService.cloneDeep(this.form.getRawValue());
             const original = UtilitiesService.cloneDeep(this.original);
-            this.postingEntity = Object.assign({}, original, updatedForm);
+
+            // If the entity contains any properties that are not form fields,
+            // then they need to be copied as well. Otherwise any changes are lost
+            // when original is used for the base that the updated form fields are copied onto.
+            for (const property in this.entity) {
+                if (this.entity.hasOwnProperty(property) && !updatedForm.hasOwnProperty(property)) {
+                    updatedForm[property] = UtilitiesService.cloneDeep(this.entity[property]);
+                }
+            }
+            this.entity = Object.assign({}, original, updatedForm);
         }
     }
 
@@ -478,11 +498,11 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
 
         // Do not compare prototype functions added to the objects, just the data
         const original = UtilitiesService.omitFunctions(this.original);
-        const postingEntity = UtilitiesService.omitFunctions(this.postingEntity);
+        const entity = UtilitiesService.omitFunctions(this.entity);
 
         if (exclude) {
             exclude.forEach(exclusion => {
-                let skipEntityField = postingEntity;
+                let skipEntityField = entity;
                 let skipOriginalField = original;
 
                 // If the exclusion has any dots, those separate the formGroup names.
@@ -508,7 +528,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
             });
         }
 
-        return !UtilitiesService.isEqual(original, postingEntity);
+        return !UtilitiesService.isEqual(original, entity);
     }
 
     protected routeToSearchResultsWithError(error?: string | IServerError) {
@@ -531,51 +551,57 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
             === -1;
     }
 
-    private copyItemIntoForm(formControls: { [key: string]: AbstractControl }, postingEntity: IEntity) {
+    private copyItemIntoForm(formControls: { [key: string]: AbstractControl }, entity: IEntity) {
         this.updatingForm = true;
         Object.keys(formControls).forEach(key => {
             const control = formControls[key];
             if (control instanceof FormArray) {
-                this.copyEachItemInArrayIntoForm(control, postingEntity[key]);
+                this.copyEachItemInArrayIntoForm(control, entity[key]);
             } else if (control instanceof FormGroup) {
-                this.copyItemIntoForm(control.controls, postingEntity[key]);
-            } else if (postingEntity) {
-                formControls[key].patchValue(postingEntity[key]);
+                this.copyItemIntoForm(control.controls, entity[key]);
+            } else if (entity) {
+                formControls[key].patchValue(entity[key]);
             }
         });
         this.updatingForm = false;
     }
 
-    private copyEachItemInArrayIntoForm(array: FormArray, postingEntity: any) {
+    private copyEachItemInArrayIntoForm(array: FormArray, entity: any) {
         // Get the first item in the array of form controls.
         // Clear out any existing data in that control and save it off
         if (array.controls.length > 0) {
             const firstItem = UtilitiesService.cloneDeep((<FormGroup>array.controls[0]).controls);
             Object.keys(firstItem).forEach(fieldName => {
-                firstItem[fieldName] = null;
+                if (firstItem[fieldName] instanceof FormGroup) {
+                    Object.keys(firstItem[fieldName].controls).forEach(fldName => {
+                        firstItem[fieldName].controls[fldName].value = null;
+                    });
+                } else {
+                    firstItem[fieldName].value = null;
+                }
             });
 
             for (let i = array.length - 1; i >= 0; i--) {
                 array.removeAt(i);
             }
-            for (let i = 0; i < postingEntity.length; i++) {
+            for (let i = 0; i < entity.length; i++) {
                 const nextItem = this.formBuilder.group(
                     UtilitiesService.cloneDeep(firstItem)
                 );
                 array.push(nextItem);
 
-                this.patchValue(postingEntity[i], array.at(i));
+                this.patchValue(entity[i], array.at(i));
             }
         } else {
             // If the array was empty, then must construct the form fields using
-            // the postingEntity field names
-            for (let i = 0; i < postingEntity.length; i++) {
+            // the entity field names
+            for (let i = 0; i < entity.length; i++) {
                 const nextItem = this.formBuilder.group({});
-                Object.keys(postingEntity[i]).forEach(fieldName => {
+                Object.keys(entity[i]).forEach(fieldName => {
                     nextItem.addControl(fieldName, new FormControl());
                 });
                 array.push(nextItem);
-                this.patchValue(postingEntity[i], nextItem);
+                this.patchValue(entity[i], nextItem);
             }
         }
     }
@@ -593,16 +619,6 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         if (pickList) {
             pickList.forEach(item => {
                 resultList.push({ ruleCode: item.ruleCode, longName: '', shortName: '' });
-            });
-        }
-        return resultList;
-    }
-
-    protected mapPickListToListWithOrder(pickList: Array<{ ruleCode: string, label: string }>) {
-        const resultList: Array<{ ruleCode?: string, fundCode?: string, longName: string, shortName: string, order: number }> = [];
-        if (pickList) {
-            pickList.forEach((item, index) => {
-                resultList.push({ ruleCode: item.ruleCode, longName: '', shortName: '', order: index + 1 });
             });
         }
         return resultList;
@@ -657,7 +673,7 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
         return parameter;
     }
 
-    private removePartsListChoiceDropdowns(saveEntity: IEntity) {
+    private removeListChoiceDropdowns(saveEntity: IEntity) {
         const sendEntity = UtilitiesService.cloneDeep(saveEntity);
         Object.keys(sendEntity).forEach(key => {
             const property = sendEntity[key];
