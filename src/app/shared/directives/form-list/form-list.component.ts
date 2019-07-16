@@ -11,8 +11,9 @@ import {
     ElementRef
 } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ActionCode } from '../../models/authorization.types';
-import { UtilitiesService } from '../../services/utilities.service';
+import { ActionCode } from '../../../framework/models/authorization.types';
+import { UtilitiesService } from '../../../framework/services/utilities.service';
+
 
 // This component groups a display or editable list control based on the type of the field
 // It also includes any field-level errors

@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, Input, EventEmitter, Output } from '@angular/core';
-import { ConfirmDialogComponent } from '../../../framework/directives/confirm-dialog/confirm-dialog.component';
-import { ConfirmChoice } from '../../../framework/models/confirm-choices.enum';
+import { ConfirmDialogComponent } from '../../../shared/directives/confirm-dialog/confirm-dialog.component';
+import { ConfirmChoice } from '../../../shared/models/confirm-choices.enum';
 
 @Component({
     selector: 'la-transaction-confirm-dialog',

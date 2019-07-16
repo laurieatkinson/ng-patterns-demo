@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from '../../../framework/components/base-component';
-import { IDataTableColumn } from '../../../framework/directives/data-table/data-table-models';
+import { IDataTableColumn } from '../../../shared/directives/data-table/data-table-models';
 import { IAccountSearchResult } from '../../../demo-common/models/account-search-result.models';
 import { UserSessionService } from '../../../demo-common/services/user-session.service';
 

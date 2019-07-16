@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FrameworkModule } from '../framework/framework.module';
 import { DemoCommonModule } from '../demo-common/demo-common.module';
+import { SharedModule } from '../shared/shared.module';
 import { DemoRoutingModule } from './demo-routing.module';
 import { UpdateService } from './accounts/shared/services/update.service';
 import { AccountDataService } from './accounts/shared/services/account-data.service';
@@ -28,7 +28,7 @@ import { ChildComponent3Resolver } from './accounts/child-component3/child-compo
     imports: [
         CommonModule,
         HttpClientModule,
-        FrameworkModule,
+        SharedModule,
         DemoCommonModule,
         DemoRoutingModule
     ],

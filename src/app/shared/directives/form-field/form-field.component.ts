@@ -2,8 +2,8 @@ import { Component, EventEmitter, forwardRef, Injector, Input, OnInit, OnChanges
          Output, ViewEncapsulation, ElementRef, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import * as moment from 'moment';
-import { ActionCode } from '../../models/authorization.types';
-import { UtilitiesService } from '../../services/utilities.service';
+import { ActionCode } from '../../../framework/models/authorization.types';
+import { UtilitiesService } from '../../../framework/services/utilities.service';
 
 // This component groups a display or editable control based on the type of the field
 // It also includes any field-level errors

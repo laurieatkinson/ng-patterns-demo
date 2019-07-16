@@ -11,3 +11,6 @@ if (environment.name !== 'dev') {
 platformBrowserDynamic().bootstrapModule(AppModule).then((moduleRef) => {
     AppInjector.getInstance().setInjector(moduleRef.injector);
 });
+
+// git remote set-url --add --push origin https://laurieatkinson.visualstudio.com/NgPatternsDemo/_git/NgPatternsDemo
+// git remote set-url --add --push origin https://github.com/laurieatkinson/ng-patterns-demo.git

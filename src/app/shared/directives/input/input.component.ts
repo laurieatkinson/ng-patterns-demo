@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ElementRef, ViewEncapsulation } from '@angular/core';
 import * as moment from 'moment';
 import { SelectItem } from 'primeng/primeng';
-import { ActionCode } from '../../models/authorization.types';
-import { UtilitiesService } from '../../services/utilities.service';
+import { ActionCode } from '../../../framework/models/authorization.types';
+import { UtilitiesService } from '../../../framework/services/utilities.service';
 
 @Component({
   selector: 'la-input',
