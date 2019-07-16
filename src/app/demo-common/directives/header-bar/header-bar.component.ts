@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/primeng';
 import { AuthService } from '../../../framework/services/auth.service';
-import { MenuComponent } from '../../../framework/directives/menu/menu.component';
+import { MenuComponent } from '../../../shared/directives/menu/menu.component';
 
 @Component({
     selector: 'la-header-bar',

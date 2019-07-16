@@ -1,6 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { FrameworkModule } from '../framework/framework.module';
 import { HeaderBarComponent } from './directives/header-bar/header-bar.component';
 import { TopNavComponent } from './directives/top-nav/top-nav.component';
 import { TransactionDataService } from './services/transaction-data.service';
@@ -12,11 +12,13 @@ import { UserSessionService } from './services/user-session.service';
 import { ComponentHeaderComponent } from './directives/component-header/component-header.component';
 import { DemoCommonDataService } from './services/demo-common-data.service';
 import { TransactionConfirmDialogComponent } from './directives/transaction-confirm-dialog/transaction-confirm-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
+        CommonModule,
         RouterModule,
-        FrameworkModule
+        SharedModule
     ],
     declarations: [
         TopNavComponent,

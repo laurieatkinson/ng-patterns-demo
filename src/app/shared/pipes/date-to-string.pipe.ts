@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { UtilitiesService } from '../services/utilities.service';
+import { UtilitiesService } from '../../framework/services/utilities.service';
 
 @Pipe({name: 'dateToString'})
 export class DateToStringPipe implements PipeTransform {

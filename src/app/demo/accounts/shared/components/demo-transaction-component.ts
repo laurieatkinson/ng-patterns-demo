@@ -10,7 +10,6 @@ import { UtilitiesService } from '../../../../framework/services/utilities.servi
 import { TransactionService } from '../../../../demo-common/services/transaction.service';
 import { FormBuilderService } from '../../../../framework/services/form-builder.service';
 import { BaseComponent } from '../../../../framework/components/base-component';
-import { ConfirmChoice } from '../../../../framework/models/confirm-choices.enum';
 import { UserSessionService } from '../../../../demo-common/services/user-session.service';
 import { ValidationService } from '../../../../framework/validation/services/validation.service';
 import { UpdateService } from '../services/update.service';
@@ -22,6 +21,7 @@ import { AppInjector } from '../../../../app-injector.service';
 import { ActionCode } from '../../../../framework/models/authorization.types';
 import { AuthorizationService } from '../../../../framework/services/authorization.service';
 import { ICurrentControlValidators } from '../../../../framework/validation/models/validation.models';
+import { ConfirmChoice } from '../../../../shared/models/confirm-choices.enum';
 
 @Component({
     template: ''

@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Directive, ElementRef, Input } from '@angular/core';
-import { AuthorizationService } from '../../services/authorization.service';
-import { ActionCode } from '../../models/authorization.types';
+import { ActionCode } from '../../../framework/models/authorization.types';
+import { AuthorizationService } from '../../../framework/services/authorization.service';
 
 @Directive({
     selector: '[laDisableIfUnauthorized]'
