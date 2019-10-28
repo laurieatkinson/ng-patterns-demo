@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { AuthorizationService } from './authorization.service';
 import { AuthorizationDataService } from './authorization-data.service';
 import { MockAppConfig } from '../../demo-common/testing/testing-helpers';
+import { AppConfig } from '../../app.config';
 
 export class MockAuthorizationDataService {
     getPermissions() {
@@ -9,15 +10,9 @@ export class MockAuthorizationDataService {
     }
 }
 
-export class MockAuthAppConfig extends MockAppConfig {
-    aad: {
-        requireAuth: true;
-    };
-}
-
 describe('AuthorizationService', () => {
     beforeEach(() => {
-
+        AppConfig.settings = MockAppConfig.settings;
         TestBed.configureTestingModule({
             providers: [
                 AuthorizationService,

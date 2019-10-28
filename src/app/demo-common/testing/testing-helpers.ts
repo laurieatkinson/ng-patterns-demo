@@ -22,6 +22,7 @@ import { UtilitiesService } from '../../framework/services/utilities.service';
 import { DataService } from '../../framework/services/data.service';
 import { ValidationService } from '../../framework/validation/services/validation.service';
 import { AuthService } from '../../framework/services/auth.service';
+import { AppConfig } from '../../app.config';
 
 const mockTransactionObject: IAccountTransactionObject = {
     accountCode: 'XYZ123',
@@ -91,19 +92,32 @@ export class MockAuthService {
     logOut() { }
 }
 
-export class MockAppConfig {
+export class MockAppConfig extends AppConfig {
     static settings = {
         env: {
-            name: ''
+            name: '',
+            buildId: ''
         },
-        aad: {},
+        aad: {
+            requireAuth: true,
+            tenant: '',
+            resource: '',
+            clientId: '',
+            endpoints: {}
+        },
         apiServer: {
             metadata: '',
             rules: '',
             transaction: '',
         },
-        appInsights: {},
-        logging: {}
+        appInsights: {
+            instrumentationKey: ''
+        },
+        logging: {
+            console: true,
+            appInsights: false,
+            traceEnabled: false
+        }
     };
 }
 
