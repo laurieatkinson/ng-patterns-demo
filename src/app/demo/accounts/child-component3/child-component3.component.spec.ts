@@ -1,6 +1,6 @@
 import { async } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { ChildComponent3Component } from './child-component3.component';
 import { UtilitiesService } from '../../../framework/services/utilities.service';
 import { TestInjector } from '../../../demo-common/testing/testing-helpers';
@@ -21,7 +21,7 @@ const child3: IChild3Entity = {
 };
 
 class MockActivatedRoute extends ActivatedRoute {
-  data = Observable.of({
+  data = of({
     child3: UtilitiesService.cloneDeep(child3)
   });
 }

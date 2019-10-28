@@ -2,20 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { LoggingService } from '../logging/logging.service';
 import { MockLoggingService } from '../../demo-common/testing/testing-helpers';
-
-// class MockAuthenticationContext {
-//     constructor(config: adal.Config) { }
-//     isCallback(url: string) {
-//         return false;
-//     }
-//     handleWindowCallback() {}
-//     getLoginError() {
-//         return '';
-//     }
-//     getCachedUser(resource: string, callback: (message: string, token: string) => any) {}
-//     login() {}
-//     logOut() {}
-// }
+import { AdalService } from 'adal-angular4';
 
 class TestAuthService extends AuthService {
     authenticate() {}
@@ -29,15 +16,12 @@ describe('AuthService', () => {
 
         TestBed.configureTestingModule({
             providers: [
+                AdalService,
                 TestAuthService,
                 {
                     provide: LoggingService,
                     useClass: MockLoggingService
                 }
-                // {
-                //     provide: AuthenticationContext,
-                //     useClass: MockAuthenticationContext
-                // }
             ]
         });
     });
@@ -53,20 +37,20 @@ describe('AuthService', () => {
 
     it('should default username to empty', inject([TestAuthService, LoggingService],
         (service: TestAuthService, loggingService: LoggingService) => {
-        expect(service.currentUserName).toEqual('');
+        expect(service.userName).toEqual('');
     }));
 
     it('can call login', inject([TestAuthService, LoggingService],
         (service: TestAuthService, loggingService: LoggingService) => {
-        spyOn(service, 'logIn');
-        service.logIn();
-        expect(service.logIn).toHaveBeenCalled();
+        spyOn(service, 'login');
+        service.login();
+        expect(service.login).toHaveBeenCalled();
     }));
 
     it('can call logout', inject([TestAuthService, LoggingService],
         (service: TestAuthService, loggingService: LoggingService) => {
-        spyOn(service, 'logOut');
-        service.logOut();
-        expect(service.logOut).toHaveBeenCalled();
+        spyOn(service, 'logout');
+        service.logout();
+        expect(service.logout).toHaveBeenCalled();
     }));
 });

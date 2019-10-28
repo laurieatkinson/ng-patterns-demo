@@ -50,7 +50,7 @@ export class DataTableComponent implements OnInit {
     @Output() itemDeleted: EventEmitter<any> = new EventEmitter();
     @Output() validateChangedRow: EventEmitter<any> = new EventEmitter();
 
-    @ViewChild('dataTable') dataTable: DataTable;
+    @ViewChild('dataTable', { static: false }) dataTable: DataTable;
 
     get data(): Array<any> {
         return this._data;

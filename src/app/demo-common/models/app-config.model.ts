@@ -15,6 +15,7 @@ export interface IAppConfig {
         tenant: string;
         resource: string;
         clientId: string;
+        endpoints: { [key: string]: string };
     };
     apiServer: {
         metadata: string;

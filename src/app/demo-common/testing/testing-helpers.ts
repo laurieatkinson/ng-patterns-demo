@@ -2,10 +2,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ReflectiveInjector, Type, TypeProvider, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/combineLatest';
+import { Subject, of } from 'rxjs';
 import { AppInjector } from '../../app-injector.service';
 import { TransactionEntityDataService } from '../services/transaction-entity-data.service';
 import { LoggingService } from '../../framework/logging/logging.service';
@@ -34,7 +31,7 @@ const mockTransactionObject: IAccountTransactionObject = {
 };
 
 export class MockActivatedRoute extends ActivatedRoute {
-    params = Observable.of({
+    params = of({
     });
 }
 

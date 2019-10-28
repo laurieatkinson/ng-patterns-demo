@@ -6,11 +6,11 @@ import {
     NavigationStart,
     Router,
 } from '@angular/router';
+import { Component, OnDestroy, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthService } from './framework/services/auth.service';
-import { AuthorizationService } from './framework/services/authorization.service';
-import { Component, ViewChild, ElementRef, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { AdalService } from 'adal-angular4';
 import { GlobalEventsService } from './framework/services/global-events.service';
+import { AppConfig } from './app.config';
 
 @Component({
     selector: 'la-root',
@@ -23,8 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
     loadingDataComplete: Subscription;
     routingComplete: Subscription;
     lastItemClicked: EventTarget;
-
-    @ViewChild('loadingGif') loadingElement: ElementRef;
 
     // Keep track of the last thing clicked
     @HostListener('click', ['$event'])
@@ -54,9 +52,18 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         private globalEventsService: GlobalEventsService,
         private router: Router,
-        private authorizationService: AuthorizationService,
-        private authService: AuthService
+        private changeDetectorRef: ChangeDetectorRef,
+        private adalService: AdalService
         ) {
+        const adalConfig: adal.Config = {
+            tenant: AppConfig.settings.aad.tenant,
+            clientId: AppConfig.settings.aad.clientId,
+            redirectUri: window.location.origin,
+            navigateToLoginRequestUrl: true,
+            endpoints: AppConfig.settings.aad.endpoints
+        };
+        adalService.init(adalConfig);
+        this.adalService.handleWindowCallback();
     }
 
     ngOnInit() {
@@ -75,24 +82,8 @@ export class AppComponent implements OnInit, OnDestroy {
         });
 
         this.routingComplete = this.globalEventsService.routingComplete.subscribe(() => {
-            this.authService.clearOriginalRoute();
             this.hideSpinner();
         });
-    }
-
-    isNotAuthorizedMessageVisible() {
-        if (this.loading) {
-            return false;
-        }
-        if (this.authService.isUserAuthenticated) {
-            return !this.authorizationService.hasPermission('VIEW');
-        } else {
-            return false;
-        }
-    }
-
-    notAuthorizedMessage() {
-        return `User "${this.authService.currentUserLoginName}" is not authorized to access this application.`;
     }
 
     private handleNavigationEvent(event: RouterEvent) {
@@ -109,11 +100,17 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private showSpinner() {
-        this.loading = true;
+        if (!this.loading) {
+            this.loading = true;
+            this.changeDetectorRef.detectChanges();
+        }
     }
 
     private hideSpinner() {
-        this.loading = false;
+        if (this.loading) {
+            this.loading = false;
+            this.changeDetectorRef.detectChanges();
+        }
     }
 
     ngOnDestroy() {

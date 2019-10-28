@@ -17,7 +17,7 @@ export class HeaderBarComponent {
             command: () => { this.signOut(); }
         }
     ];
-    @ViewChild('userMenu') userMenu: MenuComponent;
+    @ViewChild('userMenu', { static: false }) userMenu: MenuComponent;
 
     constructor(private authService: AuthService, private router: Router) {
     }
@@ -32,11 +32,11 @@ export class HeaderBarComponent {
     }
 
     userName() {
-        return this.authService.currentUserName;
+        return this.authService.userName;
     }
 
     signIn() {
-        this.authService.logIn();
+        this.authService.login();
     }
 
     signOut() {

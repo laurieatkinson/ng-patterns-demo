@@ -1,7 +1,7 @@
 import { ActivatedRoute, RouterStateSnapshot } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { UtilitiesService } from '../../../../framework/services/utilities.service';
 import { IEntity } from '../../../../demo-common/models/transaction.models';
 import { IPartsFormControl } from '../../../../framework/models/form-controls.models';
@@ -24,7 +24,7 @@ const testEntity: ITestEntity = {
 };
 
 class MockActivatedRoute {
-    data = Observable.of({
+    data = of({
         testEntity: {
             transactionIdentifier: null,
             field1: 'test',

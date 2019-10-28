@@ -1,6 +1,6 @@
 import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { UserSessionService } from '../../../../../demo-common/services/user-session.service';
 import { TestInjector, MockUserSessionService, MockActivatedRoute } from '../../../../../demo-common/testing/testing-helpers';
 import { AccountHeaderComponent } from './account-header.component';
@@ -21,7 +21,7 @@ class MockAccountDataService {
         accountType: 'Personal',
         accountStatus: 'Active'
     };
-    accountChanged = Observable.of();
+    accountChanged = of();
     userSelectedAnotherAccount(): boolean {
         return false;
     }

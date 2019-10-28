@@ -34,16 +34,14 @@ describe('AuthorizationService', () => {
     }));
 
     it('should authorize if has permission', inject([AuthorizationService],
-        (service: AuthorizationService) => {
-        service.initializePermissions().then(() => {
-            expect(service.hasPermission('VIEW')).toBe(true);
-        });
+        async (service: AuthorizationService) => {
+        await service.initializePermissions();
+        expect(service.hasPermission('VIEW')).toBe(true);
     }));
 
     it('should not authorize if no permission', inject([AuthorizationService],
-        (service: AuthorizationService) => {
-        service.initializePermissions().then(() => {
-            expect(service.hasPermission('UPDATE')).toBe(false);
-        });
+        async (service: AuthorizationService) => {
+        await service.initializePermissions();
+        expect(service.hasPermission('UPDATE')).toBe(false);
     }));
 });

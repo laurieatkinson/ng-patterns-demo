@@ -1,12 +1,12 @@
 import { async } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { NavigationErrorComponent } from './navigation-error.component';
 import { TestInjector } from '../../../../../demo-common/testing/testing-helpers';
 import { UserSessionService } from '../../../../../demo-common/services/user-session.service';
 
 class MockActivatedRoute extends ActivatedRoute {
-  params = Observable.of({
+  params = of({
     code: 'CF0102'
   });
 }

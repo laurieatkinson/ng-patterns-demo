@@ -13,8 +13,8 @@ export class MenuComponent implements OnInit, OnChanges {
     @Input() orientation = 'horizontal';
     filteredItems: MenuItem[];
 
-    @ViewChild('popupMenu') popupMenu: Menu;
-    @ViewChild('logoutMenu') logoutMenu: Menu;
+    @ViewChild('popupMenu', { static: false }) popupMenu: Menu;
+    @ViewChild('logoutMenu', { static: false }) logoutMenu: Menu;
 
     constructor(private changeDetectorRef: ChangeDetectorRef) {
     }

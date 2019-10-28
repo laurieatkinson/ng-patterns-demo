@@ -2,7 +2,7 @@ import { async } from '@angular/core/testing';
 import { DataTableComponent } from './data-table.component';
 import { IDataTableColumn } from './data-table-models';
 import { TestInjector } from '../../../demo-common/testing/testing-helpers';
-import { UtilitiesService } from '../../services/utilities.service';
+import { UtilitiesService } from '../../../framework/services/utilities.service';
 
 const columns: Array<IDataTableColumn> = [
     { name: 'id', dataType: 'number', hidden: true },

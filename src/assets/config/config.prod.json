@@ -13,7 +13,10 @@
     "aad": {
         "requireAuth": true,
         "tenant": "microsoft.onmicrosoft.com",
-        "clientId": "<your-guid-here>"
+        "clientId": "<your-guid-here>",
+        "endpoints": {
+            "api": "<your-guid-here>"
+        }
     },
     "apiServer": {
         "metadata": "https://ng-demo-metadata.azurewebsites.net/api/",

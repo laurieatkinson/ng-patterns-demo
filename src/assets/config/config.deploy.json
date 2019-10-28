@@ -13,7 +13,10 @@
     "aad": {
         "requireAuth": true,
         "tenant": "#{aadTenant}",
-        "clientId": "#{aadClientId}"
+        "clientId": "#{aadClientId}",
+        "endpoints": {
+            "api": "#{aadClientId}"
+        }
     },
     "apiServer": {
         "metadata": "#{medtadataApi}",

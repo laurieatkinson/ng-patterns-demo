@@ -2,8 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { UtilitiesService } from './services/utilities.service';
 import { GlobalEventsService } from './services/global-events.service';
@@ -20,6 +18,7 @@ import { SystemMessageService } from './services/system-message.service';
 import { SystemMessageDataService } from './services/system-message-data.service';
 import { BaseComponent } from './components/base-component';
 import { ValidationModule } from './validation/validation.module';
+import { AdalService } from 'adal-angular4';
 
 @NgModule({
     imports: [
@@ -34,7 +33,7 @@ import { ValidationModule } from './validation/validation.module';
     ],
     providers: [
         GlobalEventsService,
-        AuthService,
+        AdalService,
         AuthGuardService,
         CanDeactivateGuardService,
         FormBuilderService,

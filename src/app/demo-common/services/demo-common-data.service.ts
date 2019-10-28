@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AppInjector } from '../../app-injector.service';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserSessionService } from './user-session.service';
 import { GlobalEventsService } from '../../framework/services/global-events.service';
 import { LoggingService } from '../../framework/logging/logging.service';
@@ -24,9 +23,8 @@ export class DemoCommonDataService extends DataService {
         const utilitiesService = injector.get<UtilitiesService>(UtilitiesService);
         const loggingService = injector.get(LoggingService);
         const globalEventsService = injector.get(GlobalEventsService);
-        const router = injector.get(Router);
 
-        super(http, authService, utilitiesService, loggingService, globalEventsService, router);
+        super(http, authService, utilitiesService, loggingService, globalEventsService);
 
         this.userSessionService = injector.get(UserSessionService);
     }

@@ -52,8 +52,8 @@ export class DemoTransactionComponent extends BaseComponent implements OnInit, O
     private initializingEntity = false;
     private currentValidators: Array<ICurrentControlValidators> = [];
 
-    @ViewChild(TransactionConfirmDialogComponent) confirmationDialog: TransactionConfirmDialogComponent;
-    @ViewChild(AccountHeaderComponent) private accountHeaderComponent: AccountHeaderComponent;
+    @ViewChild(TransactionConfirmDialogComponent, { static: false }) confirmationDialog: TransactionConfirmDialogComponent;
+    @ViewChild(AccountHeaderComponent, { static: false }) private accountHeaderComponent: AccountHeaderComponent;
 
     constructor(protected route: ActivatedRoute) {
         super();

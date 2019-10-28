@@ -12,8 +12,11 @@
     },
     "aad": {
         "requireAuth": false,
-        "tenant": "",
-        "clientId": ""
+        "tenant": "microsoft.onmicrosoft.com",
+        "clientId": "<your-guid-here>",
+        "endpoints": {
+            "api": "<your-guid-here>"
+        }
     },
     "apiServer": {
         "metadata": "http://localhost:56787/api/",

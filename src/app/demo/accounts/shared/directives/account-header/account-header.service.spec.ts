@@ -1,5 +1,5 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { UserSessionService } from '../../../../../demo-common/services/user-session.service';
 import { IAccount } from '../../models/account.models';
 import { AccountDataService } from '../../services/account-data.service';
@@ -20,7 +20,7 @@ describe('AccountHeaderService', () => {
             accountType: 'Personal',
             accountStatus: 'Active'
         };
-        accountChanged = Observable.of();
+        accountChanged = of();
         userSelectedAnotherAccount(): boolean {
             return false;
         }
@@ -55,8 +55,9 @@ describe('AccountHeaderService', () => {
         expect(service).toBeTruthy();
     });
 
-    it('can initialize', () => {
-        service.initialize();
+    it('can initialize', async () => {
+        const currentAccount = await service.initialize();
+        expect(currentAccount).toBeDefined();
     });
 
     it('can initialize with same account selected', async(() => {

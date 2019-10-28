@@ -1,8 +1,8 @@
+import { Router } from '@angular/router';
 import { AuthService } from '../../../framework/services/auth.service';
 import { HeaderBarComponent } from './header-bar.component';
-import { MenuComponent } from '../../../framework/directives/menu/menu.component';
-import { Router } from '@angular/router';
 import { TestInjector } from '../../testing/testing-helpers';
+import { MenuComponent } from '../../../shared/directives/menu/menu.component';
 
 describe('HeaderBarComponent', () => {
     let component: HeaderBarComponent;

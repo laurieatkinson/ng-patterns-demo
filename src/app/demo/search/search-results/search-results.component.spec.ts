@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../../../demo-common/services/search.service';
 import { UserSessionService } from '../../../demo-common/services/user-session.service';
 import { SearchResultsComponent } from './search-results.component';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { IAccountSearchResult } from '../../../demo-common/models/account-search-result.models';
 import { TestInjector } from '../../../demo-common/testing/testing-helpers';
 
@@ -19,7 +19,7 @@ const searchResults = [{
 ];
 
 class MockActivatedRoute extends ActivatedRoute {
-    data = Observable.of({ searchResults: searchResults });
+    data = of({ searchResults: searchResults });
 }
 
 class MockSearchService {

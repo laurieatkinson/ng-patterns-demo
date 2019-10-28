@@ -40,7 +40,7 @@ export class AuthGuardService implements CanActivate {
                 return promise;
             }
         } else {
-            this.authService.logIn();
+            this.authService.login();
             return false;
         }
     }

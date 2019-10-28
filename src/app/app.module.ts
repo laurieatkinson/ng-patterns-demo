@@ -2,6 +2,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppInsights } from 'applicationinsights-js';
 import { DemoCommonModule } from './demo-common/demo-common.module';
 import { FrameworkModule } from './framework/framework.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +15,7 @@ import { PageNotFoundComponent } from './home/page-not-found/page-not-found.comp
 import { PageErrorComponent } from './home/page-error/page-error.component';
 import { LogOutComponent } from './home/log-out/log-out.component';
 import { AppConfig } from './app.config';
-import { AppInsights } from 'applicationinsights-js';
+import { AuthInterceptorService } from './framework/services/auth-interceptor.service';
 
 export function initializeApp(appConfig: AppConfig) {
     const promise = appConfig.load().then(() => {
@@ -47,7 +49,8 @@ export function initializeApp(appConfig: AppConfig) {
     providers: [
         AppConfig,
         { provide: APP_INITIALIZER,  useFactory: initializeApp, deps: [AppConfig], multi: true },
-        { provide: UrlSerializer, useClass: LowerCaseUrlSerializer }
+        { provide: UrlSerializer, useClass: LowerCaseUrlSerializer },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
     ],
     bootstrap: [
         AppComponent

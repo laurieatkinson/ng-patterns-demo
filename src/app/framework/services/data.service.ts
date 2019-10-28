@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { AppInjector } from '../../app-injector.service';
 import { UtilitiesService } from './utilities.service';
 import { LoggingService } from '../logging/logging.service';
 import { GlobalEventsService } from './global-events.service';
@@ -24,132 +22,51 @@ export class DataService {
                 protected authService: AuthService,
                 protected utilitiesService: UtilitiesService,
                 protected loggingService: LoggingService,
-                protected globalEventsService: GlobalEventsService,
-                private router: Router
+                protected globalEventsService: GlobalEventsService
             ) {
     }
 
     protected get<T>(url: string) {
         const promise = new Promise<T>((resolve, reject) => {
-            let headers: HttpHeaders;
-            new Promise<void>((resolveToken, rejectToken) => {
-                if (AppConfig.settings.aad.requireAuth) {
-                    this.authService.getAccessToken().then((token: string) => {
-                        headers = new HttpHeaders({
-                            'Authorization': 'Bearer ' + token
-                        });
-                        resolveToken();
-                    }).catch(() => {
-                        rejectToken();
-
-                        // redirect to /error
-                        this.router.navigate(['/error'], { queryParams: { errorMessage: 'Auth Error' } });
+            this.globalEventsService.startLoadingData();
+            this.http.get(url).toPromise()
+                .then((entity: T) => {
+                    this.convertDatesFromApi(entity);
+                    this.globalEventsService.completeLoadingData();
+                    resolve(entity);
+                })
+                .catch((response: any) => {
+                    const error = this.logError({
+                        url: url,
+                        response: response
                     });
-                } else {
-                    resolveToken();
-                }
-            }).then(() => {
-                this.globalEventsService.startLoadingData();
-                const options = { headers: headers };
-                this.http.get(url, options).toPromise()
-                    .then((entity: T) => {
-                        this.convertDatesFromApi(entity);
-                        this.globalEventsService.completeLoadingData();
-                        resolve(entity);
-                    })
-                    .catch((response: any) => {
-                        const error = this.logError({
-                            url: url,
-                            response: response
-                        });
-                        this.globalEventsService.completeLoadingData();
-                        reject(error);
-                    });
-            }).catch((error: any) => {
-                reject(error);
-            });
+                    this.globalEventsService.completeLoadingData();
+                    reject(error);
+                });
         });
         return promise;
     }
 
     protected post<T>(url: string, body: any) {
         const promise = new Promise<T | string>((resolve, reject) => {
-            let headers = new HttpHeaders({
+            const headers = new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             });
-            new Promise<void>((resolveToken, rejectToken) => {
-                if (AppConfig.settings.aad.requireAuth) {
-                    this.authService.getAccessToken().then((token: string) => {
-                        headers = headers.append('Authorization', 'Bearer ' + token);
-                        resolveToken();
-                    }).catch(() => {
-                        rejectToken();
-                    });
-                } else {
-                    resolveToken();
-                }
-            }).then(() => {
-                this.globalEventsService.startLoadingData();
-                const options: IPostOptions = { headers: headers, observe: 'response' };
-                this.http.post(url, body, options).toPromise()
-                    .then((response: HttpResponse<T>) => {
-                        this.globalEventsService.completeLoadingData();
-                        const contentType = response.headers.get('Content-Type');
-                        const newResourceUrl = response.headers.get('Location');
-                        if (contentType && contentType.indexOf('json') > -1) {
-                            resolve(<T>response.body);
-                        } else if (newResourceUrl) {
-                            resolve(newResourceUrl);
-                        } else {
-                            resolve(null);
-                        }
-                    })
-                    .catch((response: any) => {
-                        const error = this.logError({
-                            url: url,
-                            body: body,
-                            response: response
-                        });
-                        this.globalEventsService.completeLoadingData();
-                        reject(error);
-                    });
-            }).catch((error: any) => {
-                reject(error);
-            });
-        });
-        return promise;
-    }
-
-    public put<T>(url: string, body: any) {
-        const promise = new Promise<T>((resolve, reject) => {
-            let headers = new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            });
-            new Promise<void>((resolveToken, rejectToken) => {
-                if (AppConfig.settings.aad.requireAuth) {
-                    this.authService.getAccessToken().then((token: string) => {
-                        headers = headers.append('Authorization', 'Bearer ' + token);
-                        resolveToken();
-                    }).catch(() => {
-                        rejectToken();
-                    });
-                } else {
-                    resolveToken();
-                }
-            }).then(() => {
-                this.globalEventsService.startLoadingData();
-                const options: IPostOptions = { headers: headers, observe: 'response' };
-                this.http.put(url, body, options).toPromise()
-                    .then((response: HttpResponse<T>) => {
-                        this.globalEventsService.completeLoadingData();
-                        const contentType = response.headers.get('Content-Type');
-                        if (contentType && contentType.indexOf('json') > -1) {
-                            resolve(<T>response.body);
-                        } else {
-                            resolve(null);
-                        }
+            this.globalEventsService.startLoadingData();
+            const options: IPostOptions = { headers: headers, observe: 'response' };
+            this.http.post(url, body, options).toPromise()
+                .then((response: HttpResponse<T>) => {
+                    this.globalEventsService.completeLoadingData();
+                    const contentType = response.headers.get('Content-Type');
+                    const newResourceUrl = response.headers.get('Location');
+                    if (contentType && contentType.indexOf('json') > -1) {
+                        resolve(<T>response.body);
+                    } else if (newResourceUrl) {
+                        resolve(newResourceUrl);
+                    } else {
+                        resolve(null);
+                    }
                 })
                 .catch((response: any) => {
                     const error = this.logError({
@@ -160,7 +77,35 @@ export class DataService {
                     this.globalEventsService.completeLoadingData();
                     reject(error);
                 });
-            }).catch((error: any) => {
+        });
+        return promise;
+    }
+
+    public put<T>(url: string, body: any) {
+        const promise = new Promise<T>((resolve, reject) => {
+            const headers = new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            });
+            this.globalEventsService.startLoadingData();
+            const options: IPostOptions = { headers: headers, observe: 'response' };
+            this.http.put(url, body, options).toPromise()
+                .then((response: HttpResponse<T>) => {
+                    this.globalEventsService.completeLoadingData();
+                    const contentType = response.headers.get('Content-Type');
+                    if (contentType && contentType.indexOf('json') > -1) {
+                        resolve(<T>response.body);
+                    } else {
+                        resolve(null);
+                    }
+            })
+            .catch((response: any) => {
+                const error = this.logError({
+                    url: url,
+                    body: body,
+                    response: response
+                });
+                this.globalEventsService.completeLoadingData();
                 reject(error);
             });
         });
@@ -169,39 +114,24 @@ export class DataService {
 
     public delete<T>(url: string, body: any) {
         const promise = new Promise<T>((resolve, reject) => {
-            let headers = new HttpHeaders({
+            const headers = new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             });
-            new Promise<void>((resolveToken, rejectToken) => {
-                if (AppConfig.settings.aad.requireAuth) {
-                    this.authService.getAccessToken().then((token: string) => {
-                        headers = headers.append('Authorization', 'Bearer ' + token);
-                        resolveToken();
-                    }).catch(() => {
-                        rejectToken();
-                    });
-                } else {
-                    resolveToken();
-                }
-            }).then(() => {
-                this.globalEventsService.startLoadingData();
-                const options: IPostOptions = { headers: headers, observe: 'response' };
-                this.http.delete(url, options).toPromise()
-                    .then((response: HttpResponse<T>) => {
-                        this.globalEventsService.completeLoadingData();
-                        resolve(null);
-                })
-                .catch((response: any) => {
-                    const error = this.logError({
-                        url: url,
-                        body: body,
-                        response: response
-                    });
+            this.globalEventsService.startLoadingData();
+            const options: IPostOptions = { headers: headers, observe: 'response' };
+            this.http.delete(url, options).toPromise()
+                .then((response: HttpResponse<T>) => {
                     this.globalEventsService.completeLoadingData();
-                    reject(error);
+                    resolve(null);
+            })
+            .catch((response: any) => {
+                const error = this.logError({
+                    url: url,
+                    body: body,
+                    response: response
                 });
-            }).catch((error: any) => {
+                this.globalEventsService.completeLoadingData();
                 reject(error);
             });
         });
@@ -230,7 +160,7 @@ export class DataService {
             }
             url += `endDate=${this.getFormattedDate(endDate)}`;
         }
-        if (beginDate && UtilitiesService.isDate(beginDate)) { // && !this.isToday(beginDate)) {
+        if (beginDate && UtilitiesService.isDate(beginDate)) {
             if (url.indexOf('?') === -1) {
                 url += '?';
             } else {

@@ -1,6 +1,6 @@
 import { ActivatedRoute } from '@angular/router';
 import { async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs';
 import { TestInjector } from '../../../demo-common/testing/testing-helpers';
 import { ChildComponent2Component } from './child-component2.component';
 import { IChild2Entity } from '../shared/models/child2-entity.models';
@@ -19,7 +19,7 @@ const child2: IChild2Entity = {
 };
 
 class MockActivatedRoute extends ActivatedRoute {
-    data = Observable.of({
+    data = of({
       child2: child2
     });
 }

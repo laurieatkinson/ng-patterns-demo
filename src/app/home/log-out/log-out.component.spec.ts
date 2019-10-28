@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
 import { TestInjector } from '../../demo-common/testing/testing-helpers';
 import { LogOutComponent } from './log-out.component';
@@ -13,7 +12,6 @@ describe('LogOutComponent', () => {
   beforeEach(() => {
     component = new LogOutComponent(
       TestInjector.getService(AuthService),
-      TestInjector.getService(Router),
       null);
   });
 
