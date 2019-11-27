@@ -15,7 +15,7 @@ export class AuthInterceptorService extends AdalInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler) {
-        if (request.url.endsWith('.json') || !AppConfig.settings.aad.requireAuth) {
+        if (request.url.startsWith('assets/config') || !AppConfig.settings.aad.requireAuth) {
             return next.handle(request);
         }
         return super.intercept(request, next);
