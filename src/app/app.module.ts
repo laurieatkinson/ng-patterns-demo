@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppInsights } from 'applicationinsights-js';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { DemoCommonModule } from './demo-common/demo-common.module';
 import { FrameworkModule } from './framework/framework.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,10 +21,15 @@ export function initializeApp(appConfig: AppConfig) {
     const promise = appConfig.load().then(() => {
         if (AppConfig.settings && AppConfig.settings.logging &&
             AppConfig.settings.logging.appInsights) {
-            const config: Microsoft.ApplicationInsights.IConfig = {
-                instrumentationKey: AppConfig.settings.appInsights.instrumentationKey
-            };
-            AppInsights.downloadAndSetup(config);
+            const appInsights = new ApplicationInsights({
+                config: {
+                    instrumentationKey: AppConfig.settings.appInsights.instrumentationKey,
+                    enableAutoRouteTracking: true // option to log all route changes
+                }
+            });
+            appInsights.loadAppInsights();
+            appInsights.trackPageView();
+            AppConfig.appMonitor = appInsights;
         }
     });
     return () => promise;

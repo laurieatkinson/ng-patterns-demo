@@ -49,7 +49,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
 
     private logNavigation() {
-        this.loggingService.logPageView();
+        // this.loggingService.logPageView(); // Use this option for manual control of page view logging
     }
 
     // These methods are called in the child classes
@@ -58,8 +58,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
 
     protected logError(errorMessage: string) {
-        this.loggingService.logException(new Error(errorMessage),
-            null, null, null, SeverityLevel.Error);
+        this.loggingService.logException(new Error(errorMessage), SeverityLevel.Error);
     }
 
     protected populateErrors(error: IServerError, form?: FormGroup) {

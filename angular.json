@@ -31,14 +31,6 @@
             "scripts": []
           },
           "configurations": {
-            "deploy": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.deploy.ts"
-                }
-              ]
-            },
             "prod": {
               "fileReplacements": [
                 {
@@ -46,6 +38,27 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "deploy": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.deploy.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },

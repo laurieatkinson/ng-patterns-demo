@@ -1,16 +1,29 @@
 import { Injectable } from '@angular/core';
-import { AppInsights } from 'applicationinsights-js';
 import { SeverityLevel } from './severity-level.model';
 import { AppConfig } from '../../app.config';
 
 // API Documentation
-// https://github.com/Microsoft/ApplicationInsights-JS/blob/master/API-reference.md
+// https://github.com/microsoft/applicationinsights-js
 @Injectable()
 export class LoggingService {
 
-    logPageView(name?: string, url?: string, properties?: any, measurements?: any, duration?: number) {
+    // Option if not using dynamic configuration file
+    // appInsights: ApplicationInsights;
+    // constructor() {
+    //     this.appInsights = new ApplicationInsights({
+    //         config: {
+    //             instrumentationKey: environment.instrumentationKey,
+    //             enableAutoRouteTracking: true // option to log all route changes
+    //         }
+    //     });
+    //     this.appInsights.loadAppInsights();
+    // }
+    logPageView(name?: string, url?: string) {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.appInsights) {
-            AppInsights.trackPageView(name, url, properties, measurements, duration);
+            AppConfig.appMonitor.trackPageView({
+                name: name,
+                uri: url
+            });
         }
     }
 
@@ -19,43 +32,32 @@ export class LoggingService {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.console) {
             this.sendToConsole(error, severityLevel);
         }
-        // if (AppConfig.settings.logging.appInsights) {
-        //     const parsedError: any = {};
-        //     Object.keys(error).forEach(key => {
-        //         if (typeof error[key] === 'string') {
-        //             parsedError[key] = error[key];
-        //         } else {
-        //             parsedError[key] = JSON.stringify(error[key]);
-        //         }
-        //     });
-        //     AppInsights.trackEvent('Demo Error', parsedError);
-        // }
     }
 
-    logEvent(name: string, properties?: any, measurements?: any) {
+    logEvent(name: string, properties?: { [key: string]: any }) {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.appInsights) {
-            AppInsights.trackEvent(name, properties, measurements);
+            AppConfig.appMonitor.trackEvent({ name: name}, properties);
         }
     }
 
-    logMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: any) {
+    logMetric(name: string, average: number, properties?: { [key: string]: any }) {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.appInsights) {
-            AppInsights.trackMetric(name, average, sampleCount, min, max, properties);
+            AppConfig.appMonitor.trackMetric({ name: name, average: average }, properties);
         }
     }
 
-    logException(exception: Error, severityLevel?: SeverityLevel, handledAt?: string, properties?: any, measurements?: any) {
+    logException(exception: Error, severityLevel?: SeverityLevel) {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.console) {
             this.sendToConsole(exception, severityLevel);
         }
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.appInsights) {
-            AppInsights.trackException(exception, handledAt, properties, measurements, <AI.SeverityLevel>severityLevel);
+            AppConfig.appMonitor.trackException({ exception: exception, severityLevel: severityLevel });
         }
     }
 
-    logTrace(message: string, properties?: any) {
+    logTrace(message: string, properties?: { [key: string]: any }) {
         if (AppConfig.settings && AppConfig.settings.logging && AppConfig.settings.logging.appInsights) {
-            AppInsights.trackTrace(message, properties);
+            AppConfig.appMonitor.trackTrace({ message: message}, properties);
         }
     }
 
