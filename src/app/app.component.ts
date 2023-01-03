@@ -63,10 +63,11 @@ export class AppComponent implements OnInit, OnDestroy {
             endpoints: AppConfig.settings.aad.endpoints
         };
         adalService.init(adalConfig);
-        this.adalService.handleWindowCallback();
     }
 
     ngOnInit() {
+        this.adalService.handleWindowCallback();
+
         this.router.events.subscribe((event: RouterEvent) => {
             this.handleNavigationEvent(event);
         });

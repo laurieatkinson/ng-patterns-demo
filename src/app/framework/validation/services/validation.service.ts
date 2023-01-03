@@ -13,7 +13,8 @@ import {
     IValidator,
     IDateMinValueValidator,
     IDateMaxValueValidator,
-    ICurrentControlValidators
+    ICurrentControlValidators,
+    IFormValidationRules
 } from '../models/validation.models';
 import { ControlValidators } from '../directives/control-validators.directive';
 
@@ -25,7 +26,11 @@ export class ValidationService {
         return new Promise<Array<ICurrentControlValidators>>((resolve) => {
             dataService.put<IValidationRules>(endpoint, null)
             .then(rules => {
-                resolve(this.addRulesToControls(formGroup, rules));
+                let dto = (<IFormValidationRules>rules).dto;
+                if (!dto) {
+                    dto = (<IFormValidationRules>rules).dtoList;
+                }
+                resolve(this.addRulesToControls(formGroup, dto));
             })
             .catch(() => {
                 resolve(null);
@@ -57,7 +62,7 @@ export class ValidationService {
                 const validatorArray = this.buildFieldValidators(prop.rules);
 
                 if (validatorArray.length > 0) {
-                    const validators = this.applyValidatorToControl(formGroup, prop.fieldName, validatorArray, null);
+                    const validators = this.applyValidatorToControl(formGroup, prop.name, validatorArray, null);
                     if (validators) {
                         controlValidators.push(validators);
                     }
@@ -65,7 +70,7 @@ export class ValidationService {
                 }
 
                 // If validator includes readOnly attribute, disable the control
-                this.disableReadOnlyControl(formGroup, prop.fieldName, prop.rules);
+                this.disableReadOnlyControl(formGroup, prop.name, prop.rules);
             }
         }
         return controlValidators;

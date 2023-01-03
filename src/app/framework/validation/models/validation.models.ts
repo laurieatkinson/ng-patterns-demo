@@ -28,7 +28,7 @@ export type validationType =
     export interface IValidationRules {
     type: validationType;
     properties: Array<{
-        fieldName: string,
+        name: string,
         rules: Array<IValidator>}>;
 }
 
@@ -188,10 +188,10 @@ export interface IAnyValueExceptValidator extends IValidator {
     };
 }
 
-// export interface IFormValidationRules {
-//     dto?: IValidationRules;
-//     dtoList?: IValidationRules;
-// }
+export interface IFormValidationRules {
+    dto?: IValidationRules;
+    dtoList?: IValidationRules;
+}
 
 export interface ICurrentControlValidators {
     control: AbstractControl;

@@ -24,7 +24,7 @@ export class AuthorizationService {
     }
 
     initializePermissions() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.authorizationDataService.getPermissions()
                 .then(permissions => {
                     this.permissions = permissions;
